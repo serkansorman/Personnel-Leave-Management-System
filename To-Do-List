@@ -1,0 +1,7 @@
+Authentication yapıldıktan sonra user rolüne göre navigation barın tasarımı değişmeli.
+Giriş yapan userin rolü ya da rolleri elde edilmeli.
+Databasede izinlerin tutulduğu gerekli user tabloları oluşturulacak.
+Navigation barın button erişimleri yapılacak.
+Databaseden ekrana getirilecek personel ve izinlerinin sayfa üzerinde tablo halinde gösterilmesi sağlanmalı.
+İzin ile ilgili add,update,remove gibi işlemlerin REST methodları yazılmalı.
+Project manager proje üyelerine sayfa üzerinden erişip izin durumlarını görebilmeli.
