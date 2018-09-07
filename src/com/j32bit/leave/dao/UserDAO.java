@@ -3,7 +3,10 @@ package com.j32bit.leave.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Properties;
+
+import com.j32bit.leave.bean.User;
 
 
 public class UserDAO extends ConnectionHelper {
@@ -18,18 +21,24 @@ public class UserDAO extends ConnectionHelper {
 		 */
 	}
 	
-	public String getUserRole(String email) throws Exception {
+	public User getUser(String email) throws Exception {
 	
 		Connection conn = getConnection();
+		User user = new User();
 		PreparedStatement preparedStmt = conn.prepareStatement("SELECT * FROM user_roles WHERE email=?");
 		preparedStmt.setString(1, email);
 		ResultSet rs = preparedStmt.executeQuery();
 		
 		if(rs.next()) {
-			return rs.getString("role_name");
+			ArrayList<String> roles = new ArrayList<String>();
+			user.setEmail(email);
+			roles.add(rs.getString("role_name"));
+			user.setRoles(roles);
 		}
 		
-		return "unAuthorized";
+		
+		return user;
+		
 	}
 
 }
