@@ -69,25 +69,55 @@
 <body>
 
 <div class="navbar">
-  <a class="navbar-brand" href="#">
-        <img src="./images/32bit.jpg" height="30" alt="">
-  </a>
-  <a href="#home">Home</a>
-  <a href="#news">My Leave Days</a>
+  <a class="navbar-brand" href="#"><img src="./images/32bit.jpg" height="30" alt=""></a>
+  <a id="nav_profile" href="#">Profile</a>
+  <a id="nav_history" href="# ">My Leave History</a>
+  <a id="nav_leave_requests" href="#">Leave Requests</a>
+  <a id="nav_project_members" href="#">Project Members</a>
+  <a id="nav_project_managers" href="#">Project Managers</a>
   <div class="dropdown">
-    <button class="dropbtn">Leave  
+    <button id="nav_leave_process" class="dropbtn">Leave  
       <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-content">
-      <a href="#">Add Leave</a>
-      <a href="#">Update Leave</a>
-      <a href="#">Remove Leave</a>
+      <a id="drop_add_leave" href="#">Create Leave Request</a>
+      <a id="drop_update_leave" href="#">Update Leave</a>
+      <a id="drop_remove_leave" href="#">Remove Leave</a>
     </div>
   </div>
-  <a href="#logout">Logout</a> 
+  <a id="nav_logout" href="#logout">Logout</a> 
 </div>
 
 <h3>Izin tablosu eklenecek</h3>
+
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript">
+
+authenticateUser();
+	
+function authenticateUser() {
+	
+	  $.get("LoginServlet", function() {
+	    $.ajax({
+	      type: "POST",
+	      url: 'rest/session/getAuthenticatedUser',
+	      contentType: "application/json",
+	      mimeType: "application/json",
+	      success: function(data) {
+	        authenticatedUser = data;
+	        $.each(authenticatedUser.roles, function(key, value) {
+	          	alert(value);
+	        });
+	   
+	      }
+	    });
+	  });
+	}
+
+
+
+
+</script>
 
 </body>
 </html>
