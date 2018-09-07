@@ -5,6 +5,21 @@
     <welcome-file>main.html</welcome-file>
   </welcome-file-list>
   
+   <servlet>
+  	<servlet-name>LoginServlet</servlet-name>
+  	<servlet-class>com.j32bit.leave.servlet.LoginServlet</servlet-class>    
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LoginServlet</servlet-name>
+    <url-pattern>/LoginServlet</url-pattern>
+  </servlet-mapping>
+  
+  
+  	<!-- ContextListener -->
+	<listener>
+		<listener-class>com.j32bit.leave.listener.ContextListener</listener-class>
+	</listener>
+  
   
   <security-constraint>
 		<web-resource-collection>
@@ -32,7 +47,23 @@
 		<auth-method>FORM</auth-method>
 		<form-login-config>
 			<form-login-page>/login.html</form-login-page>
-			<form-error-page>/login-failed.html</form-error-page>
+			<form-error-page>/login.html</form-error-page>
 		</form-login-config>
 	</login-config>
+	
+	
+	 <servlet>  
+    <servlet-name>Leave Management</servlet-name>  
+    <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>  
+    <init-param>  
+        <param-name>jersey.config.server.provider.packages</param-name>  
+        <param-value>com.j32bit.leave.rest</param-value>  
+    </init-param>  
+    <load-on-startup>1</load-on-startup>  
+  </servlet>  
+  <servlet-mapping>  
+    <servlet-name>Leave Management</servlet-name>  
+    <url-pattern>/rest/*</url-pattern>  
+  </servlet-mapping> 
+  
 </web-app>
