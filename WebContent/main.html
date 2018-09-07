@@ -71,11 +71,14 @@
 <div class="navbar">
   <a class="navbar-brand" href="#"><img src="./images/32bit.jpg" height="30" alt=""></a>
   <a id="nav_profile" href="#">Profile</a>
-  <a id="nav_history" href="# ">My Leave History</a>
-  <a id="nav_leave_requests" href="#">Leave Requests</a>
-  <a id="nav_project_members" href="#">Project Members</a>
-  <a id="nav_project_managers" href="#">Project Managers</a>
-  <div class="dropdown">
+
+  <div id="navbarLinks" class="navbarLinks">
+	  <a id="nav_history" href="#" >My Leave History</a>
+	  <a id="nav_leave_requests" href="#">Leave Requests</a>
+	  <a id="nav_project_members" href="#">Project Members</a>
+	  <a id="nav_project_managers" href="#">Project Managers</a>
+	</div>
+  <div id="dropdown" class="dropdown">
     <button id="nav_leave_process" class="dropbtn">Leave  
       <i class="fa fa-caret-down"></i>
     </button>
@@ -84,7 +87,9 @@
       <a id="drop_update_leave" href="#">Update Leave</a>
       <a id="drop_remove_leave" href="#">Remove Leave</a>
     </div>
+ 
   </div>
+  
   <a id="nav_logout" href="#logout">Logout</a> 
 </div>
 
@@ -92,6 +97,10 @@
 
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
+
+$("#navbarLinks > a").hide(); // Navbardaki butonları başlangıçta gizle
+$("#dropdown > button").hide(); // Dropdown butonunu başlangıçta gizle
+
 
 authenticateUser();
 	
@@ -105,8 +114,23 @@ function authenticateUser() {
 	      mimeType: "application/json",
 	      success: function(data) {
 	        authenticatedUser = data;
+	        //Rollere göre nav bar düzenlenir.
 	        $.each(authenticatedUser.roles, function(key, value) {
-	          	alert(value);
+	          	if(value == "admin"){
+	                $("#nav_leave_requests").show();
+	                $("#nav_project_managers").show();
+	          	}
+	          	else if(value == "projectManager"){
+	          	  $("#nav_leave_requests").show();
+	              $("#nav_project_members").show();
+	              $("#nav_leave_process").show();
+
+	          	}
+	          	else{
+	          	  $("#nav_history").show();
+	              $("#nav_leave_process").show();
+	          	}
+
 	        });
 	   
 	      }
