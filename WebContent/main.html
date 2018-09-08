@@ -2,6 +2,8 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 .navbar {
@@ -64,6 +66,15 @@
 .dropdown:hover .dropdown-content {
     display: block;
 }
+
+.hide{
+  display:none;
+}
+.show{
+  display:block;
+}
+
+
 </style>
 </head>
 <body>
@@ -73,7 +84,7 @@
   <a id="nav_profile" href="#">Profile</a>
 
   <div id="navbarLinks" class="navbarLinks">
-	  <a id="nav_history" href="#" >My Leave History</a>
+	  <a id="nav_history"  href="#" >My Leave History</a>
 	  <a id="nav_leave_requests" href="#">Leave Requests</a>
 	  <a id="nav_project_members" href="#">Project Members</a>
 	  <a id="nav_project_managers" href="#">Project Managers</a>
@@ -83,7 +94,7 @@
       <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-content">
-      <a id="drop_add_leave" href="#">Create Leave Request</a>
+      <a id="drop_add_leave" onclick="showDatePicker()" href="#" >Create Leave Request</a>
       <a id="drop_update_leave" href="#">Update Leave</a>
       <a id="drop_remove_leave" href="#">Remove Leave</a>
     </div>
@@ -93,9 +104,32 @@
   <a id="nav_logout" href="#logout">Logout</a> 
 </div>
 
-<h3>Izin tablosu eklenecek</h3>
+
+
+<table id="datepicker" class="hide" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <td>
+                From:
+            </td>
+            <td>
+                <input type="text" id="txtFrom" />
+            </td>
+            <td>
+                &nbsp;
+            </td>
+            <td>
+                To:
+            </td>
+            <td>
+                <input type="text" id="txtTo" />
+            </td>
+        </tr>
+    </table>
 
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+
 <script type="text/javascript">
 
 $("#navbarLinks > a").hide(); // Navbardaki butonları başlangıçta gizle
@@ -103,6 +137,7 @@ $("#dropdown > button").hide(); // Dropdown butonunu başlangıçta gizle
 
 
 authenticateUser();
+getDatePicker();
 	
 function authenticateUser() {
 	
@@ -137,10 +172,40 @@ function authenticateUser() {
 	    });
 	  });
 	}
-
-
-
-
+	
+	
+function showDatePicker() {
+	document.getElementById('datepicker').className="show";
+}
+	  
+	  
+function getDatePicker(){
+	
+	$(function () {
+        $("#txtFrom").datepicker({
+            numberOfMonths: 1,
+            dateFormat: "dd-MM-yy",
+            onSelect: function (selected) {
+                var dt = new Date(selected);
+                dt.setDate(dt.getDate() + 1);
+                $("#txtTo").datepicker("option", "minDate", dt);
+            }
+        });
+        $("#txtTo").datepicker({
+            numberOfMonths: 1,
+            dateFormat: "dd-MM-yy",
+            onSelect: function (selected) {
+                var dt = new Date(selected);
+                dt.setDate(dt.getDate() - 1);
+                $("#txtFrom").datepicker("option", "maxDate", dt);
+            }
+        });
+    });
+	
+}
+	  
+	 
+	
 </script>
 
 </body>

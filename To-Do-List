@@ -5,5 +5,4 @@ Databaseden ekrana getirilecek personel ve izinlerinin sayfa üzerinde tablo hal
 Project manager proje üyelerine sayfa üzerinden erişip izin durumlarını görebilmeli.
 Personel izin aldığında project managerine istek gitmeli. Project manager onayladığında ise admine istek gitmeli.
 Personele aldığı izinin güncel durumu gösterilmeli.
-İzin sayfasına datepicker eklenmeli.
 Datepickerden alınan veriler beane set edilip databaseye yazılmalı.
