@@ -1,0 +1,30 @@
+CREATE TABLE leaves (
+    email varchar(30) NOT NULL,
+    begin_date varchar(10) NOT NULL,
+    end_date varchar(10) NOT NULL,
+    status varchar(20) NOT NULL
+)
+
+CREATE TABLE users (
+    email varchar(30) NOT NULL ,
+    user_pass varchar(10) NOT NULL,
+    full_name varchar(40) NOT NULL,
+    department varchar(30) NOT NULL,
+    projectManager varchar(30) NOT NULL,
+    totalLeaveDays int NOT NULL,
+    UNIQUE(email)
+)
+
+CREATE TABLE user_roles (
+    email varchar(30) NOT NULL,
+    role_name varchar(20) NOT NULL
+)
+
+
+insert into users values("a","1","Ali Demir","Managament","none",50)
+insert into users values("p","1","Hakan Bulut","Research","none",50)
+insert into users values("e","1","Fatma Beyaz","Research","p",50)
+
+insert into user_roles values("a","admin")
+insert into user_roles values("p","projectManager")
+insert into user_roles values("e","employee")
