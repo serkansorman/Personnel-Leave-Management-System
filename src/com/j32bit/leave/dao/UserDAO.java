@@ -26,17 +26,32 @@ public class UserDAO extends ConnectionHelper {
 		Connection conn = getConnection();
 		User user = new User();
 		PreparedStatement preparedStmt = conn.prepareStatement("SELECT * FROM user_roles WHERE email=?");
-		preparedStmt.setString(1, email);
-		ResultSet rs = preparedStmt.executeQuery();
+		PreparedStatement preparedStmt2 = conn.prepareStatement("SELECT * FROM users WHERE email=?");
+
 		
-		if(rs.next()) {
+		preparedStmt.setString(1, email);
+		preparedStmt2.setString(1, email);
+
+		
+		ResultSet rs = preparedStmt.executeQuery();
+		ResultSet rs2 = preparedStmt2.executeQuery();
+		
+		if(rs.next() && rs2.next()) {
+			user.setEmail(rs2.getString("email"));
+			user.setPassword(rs2.getString("user_pass"));
+			user.setName(rs2.getString("full_name"));
+			user.setProjectManager(rs2.getString("projectManager"));
+			user.setTotalLeaveDays(rs2.getInt("totalLeaveDays"));
+			
 			ArrayList<String> roles = new ArrayList<String>();
-			user.setEmail(email);
 			roles.add(rs.getString("role_name"));
 			user.setRoles(roles);
 		}
 		
-		
+		closePreparedStatement(preparedStmt);
+		closePreparedStatement(preparedStmt2);
+
+		closeConnection(conn);
 		return user;
 		
 	}
