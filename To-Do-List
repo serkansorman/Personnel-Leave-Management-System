@@ -3,3 +3,7 @@ Navigation barın button erişimleri yapılacak.
 Databaseden ekrana getirilecek personel ve izinlerinin sayfa üzerinde tablo halinde gösterilmesi sağlanmalı.
 İzin ile ilgili add,update,remove gibi işlemlerin REST methodları yazılmalı.
 Project manager proje üyelerine sayfa üzerinden erişip izin durumlarını görebilmeli.
+Personel izin aldığında project managerine istek gitmeli. Project manager onayladığında ise admine istek gitmeli.
+Personele aldığı izinin güncel durumu gösterilmeli.
+İzin sayfasına datepicker eklenmeli.
+Datepickerden alınan veriler beane set edilip databaseye yazılmalı.
