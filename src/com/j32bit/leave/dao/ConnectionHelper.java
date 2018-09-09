@@ -5,6 +5,7 @@ package com.j32bit.leave.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 
@@ -37,20 +38,40 @@ public class ConnectionHelper {
 	
 
 	public Connection getConnection() throws Exception {
-		Connection conn = null;
-		if(connectionData.isUseDataSource()) {
-			InitialContext ic = new InitialContext();
-			BasicDataSource ds = (BasicDataSource) ic.lookup(connectionData.getJNDIname());
-			conn = ds.getConnection();
-		}else {
-			
-			Class.forName(connectionData.getDriver());
-			conn = DriverManager.getConnection(connectionData.getDbUrl(), connectionData.getDbUserName(), connectionData.getDbPassword());
-	
-		}
 		
-		conn.setAutoCommit(false);		
+		if(connectionData.isUseDataSource()) 
+			return getConnectionFromDataSource();
+		
+		return getConnectionLocal();		
+	}
+	
+	public Connection getConnectionFromDataSource() throws Exception {
+		
+		InitialContext ic = new InitialContext();
+		BasicDataSource ds = (BasicDataSource) ic.lookup(connectionData.getJNDIname());
+		return ds.getConnection();
+	}
+	
+	
+	public Connection getConnectionLocal() throws Exception {
+		
+		Class.forName(connectionData.getDriver());
+		return DriverManager.getConnection(connectionData.getDbUrl(), connectionData.getDbUserName(), connectionData.getDbPassword());
+	}
+	
+	
+	public Connection getTransactionConnection() throws Exception {
+		Connection conn = getConnection();
+		
+		if (conn != null && !conn.isClosed()) {
+			if (conn.getAutoCommit()) {
+				conn.setAutoCommit(false);
+			} else {
+				conn.rollback();
+			}
+		}
 		return conn;
+		
 	}
 	
 
@@ -65,14 +86,20 @@ public class ConnectionHelper {
 			pst.close();
 	}
 	
+	
+	public void closeResultSet(ResultSet rs) throws Exception {
+		if(rs != null)
+			rs.close();
+	}
+	
 
 	public void rollBackTransaction(Connection conn) {
 		
 		if (conn != null) {
 			try {
 				conn.rollback();			
-			} catch (SQLException excep) {
-				excep.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
 		}
 	}
