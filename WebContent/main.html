@@ -125,6 +125,8 @@
             </td>
         </tr>
     </table>
+    
+     <button id="sendLeaveRequest" class="hide" type="button" onclick="addLeave()">Send!</button> 
 
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
@@ -135,16 +137,20 @@
 $("#navbarLinks > a").hide(); // Navbardaki butonları başlangıçta gizle
 $("#dropdown > button").hide(); // Dropdown butonunu başlangıçta gizle
 
+var authenticatedUser;
+var beginDate;
+var endDate;
 
 authenticateUser();
 getDatePicker();
-	
+
+
 function authenticateUser() {
 	
 	  $.get("LoginServlet", function() {
 	    $.ajax({
 	      type: "POST",
-	      url: 'rest/session/getAuthenticatedUser',
+	      url: 'rest/user/getAuthenticatedUser',
 	      contentType: "application/json",
 	      mimeType: "application/json",
 	      success: function(data) {
@@ -167,45 +173,71 @@ function authenticateUser() {
 	          	}
 
 	        });
-	   
 	      }
 	    });
 	  });
-	}
+}
 	
 	
 function showDatePicker() {
 	document.getElementById('datepicker').className="show";
+	document.getElementById('sendLeaveRequest').className="show";
+
 }
 	  
 	  
 function getDatePicker(){
 	
-	$(function () {
-        $("#txtFrom").datepicker({
-            numberOfMonths: 1,
-            dateFormat: "dd-MM-yy",
-            onSelect: function (selected) {
-                var dt = new Date(selected);
-                dt.setDate(dt.getDate() + 1);
-                $("#txtTo").datepicker("option", "minDate", dt);
-            }
-        });
-        $("#txtTo").datepicker({
-            numberOfMonths: 1,
-            dateFormat: "dd-MM-yy",
-            onSelect: function (selected) {
-                var dt = new Date(selected);
-                dt.setDate(dt.getDate() - 1);
-                $("#txtFrom").datepicker("option", "maxDate", dt);
-            }
-        });
-    });
+	$(document).ready(function() {
+	    jQuery("#txtFrom").datepicker({
+	        dateFormat: 'dd/mm/yy',
+	        changeMonth: true,
+	        changeYear: true,
+	        onClose: function( selectedDate ) {
+	        	jQuery( "#txtTo" ).datepicker( "option", "minDate", selectedDate );
+	        }
+	    });
+	    jQuery("#txtTo").datepicker({
+	        dateFormat: 'dd/mm/yy',
+	        changeMonth: true,
+	        changeYear: true,
+	        onClose: function( selectedDate ) {
+	        	jQuery( "#txtFrom" ).datepicker( "option", "maxDate", selectedDate );
+	        }
+	    });
+	});
 	
 }
-	  
-	 
+
+
+function addLeave() {
 	
+	var newStatus = "on Project Manager";
+    var leave = {
+   	
+        owner: {
+        	email: authenticatedUser.email
+        },
+        beginDate: document.getElementById("txtFrom").value,
+        endDate: document.getElementById("txtTo").value,
+        status: newStatus
+    }
+
+   $('#target').html('sending..');
+
+    $.ajax({
+        url: 'rest/leave/addLeave',
+        type: 'post',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify(leave),
+        success: function (data) {
+        	alert("Leave request sent successfully, wait response from your project manager.");
+        },
+    });
+    
+}
+
 </script>
 
 </body>
