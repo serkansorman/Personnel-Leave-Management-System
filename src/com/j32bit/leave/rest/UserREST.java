@@ -11,7 +11,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.j32bit.leave.bean.User;
 
-@Path("/session")
+@Path("/user")
 public class UserREST {
 
 
@@ -29,4 +29,5 @@ public class UserREST {
 	
 		return authenticatedUser;
 	}
+
 }
