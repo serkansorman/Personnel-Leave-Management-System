@@ -23,11 +23,12 @@ public class ServiceFacade {
 		return serviceFacade;
 	}
 	
-	public void start(Properties prop) throws ClassNotFoundException {
+	public void start(Properties prop) throws Exception {
 		userDAO = new UserDAO();
 		userDAO.start(prop);
 		
 		leaveDAO = new LeaveDAO();
+		leaveDAO.start(prop);
 	}
 	
 	
