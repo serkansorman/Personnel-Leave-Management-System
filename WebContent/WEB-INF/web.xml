@@ -15,6 +15,16 @@
   </servlet-mapping>
   
   
+   <servlet>
+  	<servlet-name>LogoutServlet</servlet-name>
+  	<servlet-class>com.j32bit.leave.servlet.LogoutServlet</servlet-class>    
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LogoutServlet</servlet-name>
+    <url-pattern>/LogoutServlet</url-pattern>
+  </servlet-mapping>
+  
+  
   	<!-- ContextListener -->
 	<listener>
 		<listener-class>com.j32bit.leave.listener.ContextListener</listener-class>

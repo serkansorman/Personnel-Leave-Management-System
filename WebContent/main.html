@@ -101,7 +101,7 @@
  
   </div>
   
-  <a id="nav_logout" href="#logout">Logout</a> 
+  <a id="nav_logout" href="#logout" onclick="logout()" >Logout</a> 
 </div>
 
 
@@ -177,12 +177,28 @@ function authenticateUser() {
 	    });
 	  });
 }
+
+
+function logout() {
+	
+	  $.get("LogoutServlet", function() {
+		  window.location.replace("main.html");
+	  });
+
+}
 	
 	
 function showDatePicker() {
 	document.getElementById('datepicker').className="show";
 	document.getElementById('sendLeaveRequest').className="show";
 
+}
+
+
+function hideDatePicker(){
+	
+	document.getElementById('datepicker').className="hide";
+	document.getElementById('sendLeaveRequest').className="hide";
 }
 	  
 	  
@@ -233,6 +249,7 @@ function addLeave() {
         data: JSON.stringify(leave),
         success: function (data) {
         	alert("Leave request sent successfully, wait response from your project manager.");
+        	hideDatePicker();
         },
     });
     
