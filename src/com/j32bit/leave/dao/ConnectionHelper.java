@@ -11,7 +11,7 @@ import java.util.Properties;
 
 import javax.naming.InitialContext;
 
-
+import org.apache.log4j.Logger;
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 
 import com.j32bit.leave.bean.ConnectionData;
@@ -20,10 +20,11 @@ import com.j32bit.leave.bean.ConnectionData;
 public class ConnectionHelper {
 	
 	private ConnectionData connectionData;
+	private final Logger logger = Logger.getLogger(ConnectionHelper.class);
+
 
 	public void init(Properties prop) throws ClassNotFoundException{
 		
-		System.out.println("Connection data bean initialized");
 
 		connectionData = new ConnectionData();
 		
@@ -34,6 +35,7 @@ public class ConnectionHelper {
 		connectionData.setUseDataSource(Boolean.valueOf(prop.getProperty("database.useDataSource")));
 		connectionData.setJNDIname(prop.getProperty("database.jndi.name"));
 		
+		logger.debug("Connection data bean initialized");
 	}
 	
 

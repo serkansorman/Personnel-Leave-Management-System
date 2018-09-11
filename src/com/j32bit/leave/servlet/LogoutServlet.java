@@ -7,10 +7,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
+
+
 
 public class LogoutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+	private static Logger logger = LogManager.getLogger(LogoutServlet.class);
+
 	
 	public LogoutServlet() {
 		super();
@@ -25,6 +31,8 @@ public class LogoutServlet extends HttpServlet {
 		response.addHeader("Cache-Control", "must-revalidate");
 		response.addHeader("Expires","0");
 		response.sendRedirect(request.getContextPath());
+		
+		logger.debug("User is logged out");
 		
 	}
 

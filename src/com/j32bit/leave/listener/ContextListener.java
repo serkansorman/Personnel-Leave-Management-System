@@ -27,7 +27,7 @@ public class ContextListener implements ServletContextListener {
 		
 		try {
 			
-			logger.info("ContextListener started");
+			logger.debug("ContextListener started");
 			Properties prop = new Properties();
 			ServletContext context = servletContextEvent.getServletContext();
 			InputStream input = new FileInputStream(context.getRealPath("/WEB-INF/classes/leave.properties"));
@@ -47,7 +47,7 @@ public class ContextListener implements ServletContextListener {
     
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-		logger.info("ContextListener destroyed");
+		logger.debug("ContextListener destroyed");
 
     }
     

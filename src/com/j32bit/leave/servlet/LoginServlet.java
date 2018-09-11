@@ -5,21 +5,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
 import com.j32bit.leave.bean.User;
+import com.j32bit.leave.listener.ContextListener;
 import com.j32bit.leave.service.ServiceFacade;
 
 
 public class LoginServlet extends HttpServlet {
 	
-	/**
-	 * 
-	 */
+	private final Logger logger = Logger.getLogger(LoginServlet.class);
+
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) {
 		
-		System.out.println("Entered Servlet");
+		logger.debug("login is started");
 		String email = request.getUserPrincipal().getName();
 		
 		User authenticatedUser = null;
@@ -34,6 +36,8 @@ public class LoginServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		logger.debug("login completed. email:" + authenticatedUser.getEmail());
+
 		
 		
 	}
