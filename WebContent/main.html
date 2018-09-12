@@ -58,6 +58,7 @@
       <li id="nav_history" class="active"><a href="#">Leave History</a></li>
       <li id="nav_leave_requests" ><a href="#leave_requests"> <span class="glyphicon glyphicon-envelope"></span> Leave Requests</a></li>
       <li id="nav_project_members"><a href="#">Project Members</a></li>
+      <li id="nav_show_personnel"><a href="#" onclick="showAllPersonnel()">Show Personnel</a></li>
       <li id="nav_project_managers"><a href="#"><span class="glyphicon glyphicon-tower"></span> Project Managers</a></li> 
     </ul>
      <ul class="nav navbar-nav">
@@ -188,6 +189,25 @@
     </div>
 </div>
 
+
+<div id="personnelTableDiv" class="container hide">
+  <h2>Personnels</h2>     
+    <table id="personnelTable" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>E-mail</th>
+        <th>Department</th>
+        <th>Project Manager's</th>
+        <th>Remaining Leaves</th>
+      </tr>
+    </thead>
+    <tbody>
+    <!-- Dynamic olarak doldurulacak -->   
+    </tbody>
+  </table>
+</div>
+
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
@@ -215,6 +235,7 @@ function authenticateUser() {
 	          	if(value == "admin"){
 	                $("#nav_leave_requests").show();
 	                $("#nav_project_managers").show();
+	                $("#nav_show_personnel").show();
 	          	}
 	          	else if(value == "projectManager"){
 	          	  $("#nav_leave_requests").show();
@@ -234,6 +255,35 @@ function logout() {
 	
 	  $.get("LogoutServlet", function() {
 		  window.location.replace("main.html");
+	  });
+}
+
+
+function showAllPersonnel(){
+	
+	
+	$("#personnelTable").empty();
+
+	document.getElementById('personnelTableDiv').className="show";
+
+
+	 $.ajax({
+	    type: "GET",
+	    url: 'rest/user/getAllUsers',
+	    contentType: "application/json",
+	    mimeType: "application/json",
+	    success: function(users) {
+	      $.each(users, function(key, value) {
+	    	    $("#personnelTable").append("<tr><td>" + value.name + "</td><td>" + 
+	    	    		value.email + "</td><td>" + 
+	    	    		value.department + "</td><td>" + 
+	    	    		value.projectManager + "</td><td>" + 
+	    	    		value.totalLeaveDays +"</td></tr>");
+	      });
+	    },
+	    error: function() {
+	      console.log("getAllUsers error");
+	    }
 	  });
 }
 	

@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Properties;
-
 import com.j32bit.leave.bean.User;
 
 
@@ -48,11 +47,36 @@ public class UserDAO extends ConnectionHelper {
 			user.setRoles(roles);
 		}
 		
+	    closeResultSet(rs);
+	    closeResultSet(rs2);
 		closePreparedStatement(preparedStmt);
 		closePreparedStatement(preparedStmt2);
 
 		closeConnection(conn);
 		return user;
+		
+	}
+	
+	
+	public ArrayList<User> getAllUsers() throws Exception{
+		
+		Connection conn = getConnection();
+		PreparedStatement pre = conn.prepareStatement("Select * from users");
+	    ResultSet rst = pre.executeQuery();
+	    ArrayList<User> userList = new ArrayList<>();
+	    while (rst.next()) {
+	       User user = new User(rst.getString("email"), rst.getString("user_pass"), 
+	    		   rst.getString("full_name"),rst.getString("department"),
+	    		   rst.getInt("totalLeaveDays"),rst.getString("projectManager"));
+	       userList.add(user);
+	    }
+	    
+	    closeResultSet(rst);
+		closePreparedStatement(pre);
+		closeConnection(conn);
+		
+	    return userList;
+	
 		
 	}
 

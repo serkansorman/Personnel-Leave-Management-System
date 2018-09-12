@@ -7,6 +7,7 @@ public class User {
 	private String email;
 	private String password;
 	private String name;
+	private String department;
 	private int totalLeaveDays;
 	private String projectManager;
 	private ArrayList<String> roles;
@@ -14,17 +15,18 @@ public class User {
 	public User() {
 		
 	}
+	
 
-	public User(String email, String password, String name, int totalLeaveDays, String projectManager,
-			ArrayList<String> roles) {
-		super();
+	public User(String email, String password, String name, String department, int totalLeaveDays,
+			String projectManager) {
 		this.email = email;
 		this.password = password;
 		this.name = name;
+		this.department = department;
 		this.totalLeaveDays = totalLeaveDays;
 		this.projectManager = projectManager;
-		this.roles = roles;
 	}
+
 
 	public String getEmail() {
 		return email;
@@ -50,6 +52,14 @@ public class User {
 		this.name = name;
 	}
 
+	public String getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(String department) {
+		this.department = department;
+	}
+
 	public int getTotalLeaveDays() {
 		return totalLeaveDays;
 	}
@@ -73,6 +83,8 @@ public class User {
 	public void setRoles(ArrayList<String> roles) {
 		this.roles = roles;
 	}
+
+
 
 
 }
