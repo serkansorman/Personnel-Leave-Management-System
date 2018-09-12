@@ -200,6 +200,8 @@
         <th>Department</th>
         <th>Project Manager's</th>
         <th>Remaining Leaves</th>
+        <th>Remove</th>
+        
       </tr>
     </thead>
     <tbody>
@@ -264,8 +266,7 @@ function showAllPersonnel(){
 	$("#personnelTable > tbody").html("");
 
 	document.getElementById('personnelTableDiv').className="show";
-
-
+	
 	 $.ajax({
 	    type: "GET",
 	    url: 'rest/user/getAllUsers',
@@ -277,7 +278,13 @@ function showAllPersonnel(){
 	    	    		value.email + "</td><td>" + 
 	    	    		value.department + "</td><td>" + 
 	    	    		value.projectManager + "</td><td>" + 
-	    	    		value.totalLeaveDays +"</td></tr>");
+	    	    		value.totalLeaveDays +"</td><td>" + 
+	    	    		'<button id="' + value.email + '">Remove</button>' + "</td></tr>");
+	    	    		
+	    	    		//Hangi personel silinecekse onun emaili buttonun idsinden get edilir.
+			    	    document.getElementById(value.email).addEventListener("click", function() {
+			    	    	deletePersonnel(value.email);
+			    	    }, false);
 	      });
 	    },
 	    error: function() {
@@ -365,6 +372,10 @@ function addLeave() {
         },
     });
     
+}
+
+function deletePersonnel(email){
+	alert(email);
 }
 </script>
 
