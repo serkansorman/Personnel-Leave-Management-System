@@ -4,3 +4,7 @@ Databaseden ekrana getirilecek personel ve izinlerinin sayfa üzerinde tablo hal
 Project manager proje üyelerine sayfa üzerinden erişip izin durumlarını görebilmeli.
 Personel izin aldığında project managerine istek gitmeli. Project manager onayladığında ise admine istek gitmeli.
 Personele aldığı izinin güncel durumu gösterilmeli.
+Datepickerin gerekli kontrolleri yapılıp (Bugünün tarihinden öncesi başlangıç olarak seçilememe vs.) bootstrap yapılmalı
+Datepickerden alınan izin tarihlerinin arasındaki iş günü sayısını hesaplayan metod yazılacak.
+Admin tarafından izin onayı yapıldığında hesaplanan iş günü kadar kullanıcının izninden düşülecek.
+Admin sisteme kullanıcı ekleme,silme,update etme işlemi yapabilmeli.
