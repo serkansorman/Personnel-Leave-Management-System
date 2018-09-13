@@ -6,6 +6,7 @@ import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -44,6 +45,16 @@ public class UserREST {
 		System.out.println("Entered getAllUser rest");
 
 		return ServiceFacade.getInstance().getUserDAO().getAllUsers();
+	}
+	
+
+	@Path("/deleteUser")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@RolesAllowed("admin")
+	public void deleteUser(String email) throws Exception {
+		System.out.println("Entered deleteUser rest");
+		ServiceFacade.getInstance().getUserDAO().deleteUser(email);
 	}
 
 }

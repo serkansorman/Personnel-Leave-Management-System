@@ -147,7 +147,7 @@
                             
                            		<br><br><br>
                          
-                                <table class="table table-user-information">
+                                <table id= "profile_table" class="table table-user-information">
                                     <tbody>
                                     <tr>
                                         <td id="user_role">User level: </td>
@@ -155,6 +155,10 @@
                                     </tr>
                                     <tr>
                                         <td id="user_email">E-mail: </td>
+                                        
+                                    </tr>
+                                    <tr>
+                                        <td id="user_department">Department: </td>
                                         
                                     </tr>
                                     <tr>
@@ -308,10 +312,10 @@ function hideDatePicker(){
 function showProfile(){
 	document.getElementById('profile').className="show";
 	
-	
 	 $("#user_name_title").append(authenticatedUser.name);
 	 $("#user_name").append(authenticatedUser.name);
 	 $("#user_email").append(authenticatedUser.email);
+	 $("#user_department").append(authenticatedUser.name);
 	 $("#project_manager_email").append(authenticatedUser.projectManager);
 	 $("#total_leave_days").append(authenticatedUser.totalLeaveDays);
 	 
@@ -375,7 +379,23 @@ function addLeave() {
 }
 
 function deletePersonnel(email){
-	alert(email);
+	
+	
+	  $.ajax({
+	    url: "rest/user/deleteUser",
+	    type: "POST",
+	    mimeType: "application/json",
+	    contentType: "application/json",
+	    data: email,
+	    success: function() {
+	    	alert(email + " was deleted succesfully");
+	    	showAllPersonnel(); // Personel listesi ekranda güncellenr
+	    },
+	    error: function(jqXHR, textStatus, errorThrown) {
+	
+	    }
+	  });
+		
 }
 </script>
 

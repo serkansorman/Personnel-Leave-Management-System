@@ -79,5 +79,26 @@ public class UserDAO extends ConnectionHelper {
 	
 		
 	}
+	
+	
+	public void deleteUser(String email) throws Exception {
+		
+		//users tablosundan silme
+		Connection conn = getConnection();
+		PreparedStatement pstUser = conn.prepareStatement("Delete from users where email=?");
+		pstUser.setString(1,email);
+		pstUser.executeUpdate();
+		closePreparedStatement(pstUser);
+
+		//users_role tablosundan silme
+		PreparedStatement pstRole = conn.prepareStatement("Delete from user_roles where email=?");
+		pstRole.setString(1,email);
+		pstRole.executeUpdate();
+		closePreparedStatement(pstRole);
+		
+	
+		closeConnection(conn);
+
+	}
 
 }
