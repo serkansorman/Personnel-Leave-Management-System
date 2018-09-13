@@ -56,7 +56,7 @@
   	</div>
     <ul id="navbarLinks" class="nav navbar-nav">
       <li id="nav_history" class="active"><a href="#">Leave History</a></li>
-      <li id="nav_leave_requests" ><a href="#leave_requests"> <span class="glyphicon glyphicon-envelope"></span> Leave Requests</a></li>
+      <li id="nav_leave_requests" ><a href="#leave_requests" onclick="showLeaveRequest()"> <span class="glyphicon glyphicon-envelope"></span> Leave Requests</a></li>
       <li id="nav_project_members"><a href="#">Project Members</a></li>
       <li id="nav_show_personnel"><a href="#" onclick="showAllPersonnel()">Show Personnel</a></li>
       <li id="nav_project_managers"><a href="#"><span class="glyphicon glyphicon-tower"></span> Project Managers</a></li> 
@@ -194,6 +194,7 @@
 </div>
 
 
+<!-- Personnel table -->
 <div id="personnelTableDiv" class="container hide">
   <h2>Personnels</h2>     
     <table id="personnelTable" class="table table-striped">
@@ -201,6 +202,7 @@
       <tr>
         <th>Name</th>
         <th>E-mail</th>
+        <th>Role</th>
         <th>Department</th>
         <th>Project Manager's</th>
         <th>Remaining Leaves</th>
@@ -213,6 +215,31 @@
     </tbody>
   </table>
 </div>
+
+
+<!-- Leave Request table for projectManager -->
+
+<div id="leaveRequestTableDiv" class="container hide">
+  <h2>Leave Requests</h2>     
+    <table id="leaveRequestTable" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Begin Date</th>
+        <th>End Date</th>
+        <th>Leave Days</th>
+        <th>Accept</th>
+        <th>Decline</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+    <!-- Dynamic olarak doldurulacak -->   
+    </tbody>
+  </table>
+</div>
+
 
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
@@ -278,18 +305,60 @@ function showAllPersonnel(){
 	    mimeType: "application/json",
 	    success: function(users) {
 	      $.each(users, function(key, value) {
-	    	    $("#personnelTable").append("<tr><td>" + value.name + "</td><td>" + 
-	    	    		value.email + "</td><td>" + 
-	    	    		value.department + "</td><td>" + 
-	    	    		value.projectManager + "</td><td>" + 
-	    	    		value.totalLeaveDays +"</td><td>" + 
-	    	    		'<button id="' + value.email + '">Remove</button>' + "</td></tr>");
-	    	    		
-	    	    		//Hangi personel silinecekse onun emaili buttonun idsinden get edilir.
-			    	    document.getElementById(value.email).addEventListener("click", function() {
-			    	    	deletePersonnel(value.email);
-			    	    }, false);
+	    	  if(authenticatedUser.email != value.email){ //Giriş yapan admin personellerde gözükmez.
+		    	    $("#personnelTable").append("<tr><td>" + value.name + "</td><td>" + 
+	   	    		value.email + "</td><td>" + 
+	   	    		value.roles + "</td><td>" + 
+	   	    		value.department + "</td><td>" + 
+	   	    		value.projectManager + "</td><td>" + 
+	   	    		value.totalLeaveDays +"</td><td>" + 
+	   	    		'<button id="' + value.email + '">Remove</button>' + "</td></tr>");
+	   	    		
+	   	    		//Hangi personel silinecekse onun emaili buttonun idsinden get edilir.
+		    	    document.getElementById(value.email).addEventListener("click", function() {
+		    	    	deletePersonnel(value.email);
+		    	    }, false);
+	    	  }
 	      });
+	    },
+	    error: function() {
+	      console.log("getAllUsers error");
+	    }
+	  });
+}
+
+function showLeaveRequest(){
+	
+	$("#leaveRequestTable > tbody").html("");
+
+	document.getElementById('leaveRequestTableDiv').className="show";
+	
+	 $.ajax({
+	    type: "POST",
+	    url: "rest/leave/getLeaveRequests",
+	    contentType: "application/json",
+	    mimeType: "application/json",
+	    data: authenticatedUser.email,
+	    success: function(leaves) {
+	    $.each(leaves, function(key, leave) {
+	      	  				
+	    	$("#leaveRequestTable").append("<tr><td>" + leave.owner.name + 
+	    			"</td><td>" + leave.owner.email + "</td><td>" + 
+	    			leave.beginDate + "</td><td>" + 
+	    			leave.endDate + "</td><td>" +
+	    			leave.owner.totalLeaveDays + "</td><td>" + 
+   	    		'<button id="' + "a"+leave.id + '">Accept</button>' + "</td><td>" + 
+   	    		'<button id="' + "d"+leave.id + '">Decline</button>' +"</td></tr>");
+	    	
+	    	 document.getElementById("a"+leave.id).addEventListener("click", function() {
+	    	    	acceptLeaveRequest("a"+leave.id);
+	    	    }, false);
+	    	 
+	    	 document.getElementById("d"+leave.id).addEventListener("click", function() {
+	    	    	declineLeaveRequest("d"+leave.id);
+	    	    }, false);
+	   	    		
+	      });    
 	    },
 	    error: function() {
 	      console.log("getAllUsers error");
@@ -320,8 +389,7 @@ function showProfile(){
 	 $("#total_leave_days").append(authenticatedUser.totalLeaveDays);
 	 
 	 //Userin rolleri profilde belirtilir.
-	 var index;
-	 for (index = 0; index < authenticatedUser.roles.length; ++index) {
+	 for (var index = 0; index < authenticatedUser.roles.length; ++index) {
 		 $("#user_role_title").append(authenticatedUser.roles[index]+" ");
 		 $("#user_role").append(authenticatedUser.roles[index]+" ");
 	 }
@@ -363,7 +431,7 @@ function addLeave() {
         endDate: document.getElementById("txtTo").value,
         status: newStatus
     }
-   $('#target').html('sending..');
+
     $.ajax({
         url: 'rest/leave/addLeave',
         type: 'post',
@@ -397,6 +465,18 @@ function deletePersonnel(email){
 	  });
 		
 }
+
+
+function acceptLeaveRequest(id){
+	alert(id);
+}
+
+
+function declineLeaveRequest(id){
+	alert(id);
+
+}
+
 </script>
 
 </body>
