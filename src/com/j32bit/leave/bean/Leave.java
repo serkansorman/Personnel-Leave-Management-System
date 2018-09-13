@@ -6,17 +6,24 @@ public class Leave {
 	private String beginDate;
 	private String endDate;
 	private String status;
+	private long id;
 	
 	public Leave() {
 		
 	}
+	
+	
 
-	public Leave(User owner, String beginDate, String endDate, String status) {
+	public Leave(User owner, String beginDate, String endDate, String status, long id) {
+		super();
 		this.owner = owner;
 		this.beginDate = beginDate;
 		this.endDate = endDate;
 		this.status = status;
+		this.id = id;
 	}
+
+
 
 	public User getOwner() {
 		return owner;
@@ -49,5 +56,15 @@ public class Leave {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	
 	
 }
