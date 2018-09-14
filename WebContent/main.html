@@ -56,7 +56,7 @@
   	</div>
     <ul id="navbarLinks" class="nav navbar-nav">
       <li id="nav_history" class="active"><a href="#">Leave History</a></li>
-      <li id="nav_leave_requests" ><a href="#leave_requests" onclick="showLeaveRequestPM()"> <span class="glyphicon glyphicon-envelope"></span> Leave Requests</a></li>
+      <li id="nav_leave_requests" ><a href="#leave_requests" onclick="showLeaveRequest()"> <span class="glyphicon glyphicon-envelope"></span> Leave Requests</a></li>
       <li id="nav_project_members"><a href="#">Project Members</a></li>
       <li id="nav_show_personnel"><a href="#" onclick="showAllPersonnel()">Show Personnel</a></li>
       <li id="nav_project_managers"><a href="#"><span class="glyphicon glyphicon-tower"></span> Project Managers</a></li> 
@@ -325,15 +325,29 @@ function showAllPersonnel(){
 	  });
 }
 
-function showLeaveRequestPM(){
+function showLeaveRequest(){
 	
+	var leavesUrl;
+	var sendType;
+	var isAdmin = $.inArray("admin",authenticatedUser.roles ); // -1 değilse rolü admindir.
+	
+	// Kullanıcı adminse method tipi ve pathi değiştirilir.
+	if(isAdmin != -1){
+		leavesUrl = "rest/leave/getLeaveRequestsAdmin";
+		sendType = "GET";
+	} 
+		
+	else{ // Kullanıcı proje yöneticisi
+		leavesUrl = "rest/leave/getLeaveRequestsPM";
+		sendType = "POST";
+	}
+		
 	$("#leaveRequestTable > tbody").html("");
-
 	document.getElementById('leaveRequestTableDiv').className="show";
 	
 	 $.ajax({
-	    type: "POST",
-	    url: "rest/leave/getLeaveRequestsPM",
+	    type: sendType,
+	    url: leavesUrl,
 	    contentType: "application/json",
 	    mimeType: "application/json",
 	    data: authenticatedUser.email,
@@ -349,9 +363,15 @@ function showLeaveRequestPM(){
    	    		'<button id="' + "d"+leave.id + '">Decline</button>' +"</td></tr>");
 	    	
 	    	 document.getElementById("a"+leave.id).addEventListener("click", function() {
-	    	    	respondLeaveRequest("a"+leave.id,"on Admin");
-	    	    }, false);
+	    		 	/* Kullanıcının rolü proje yöneticisiyse ve izni onaylarsa 
+	    		 	admine iletilmek üzere statusu on Admin yapılır*/
+	    		 	if(isAdmin == -1)
+	    	    		respondLeaveRequest("a"+leave.id,"on Admin");
+	    		 	else// Admine gelen izin onaylanırsa izin kabul edilir.
+	    	    		respondLeaveRequest("a"+leave.id,"Accepted");
+	    	  }, false);
 	    	 
+	    	 //Admin veya proje yöneticisinin izin isteiğini reddetmesi
 	    	 document.getElementById("d"+leave.id).addEventListener("click", function() {
 	    	    	respondLeaveRequest("d"+leave.id,"Refused");
 	    	    }, false);
@@ -488,7 +508,7 @@ function respondLeaveRequest(id,status){
         	else
         		alert("Leave request is Refused");
         	
-        	showLeaveRequestPM(); // Listeyi güncelle
+        	showLeaveRequest(); // Listeyi güncelle
 
         	
         },

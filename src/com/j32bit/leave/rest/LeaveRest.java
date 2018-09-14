@@ -33,8 +33,19 @@ public class LeaveRest {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public ArrayList<Leave> getLeaveRequestsPM(String projectManager) throws Exception{
-		System.out.println("Entered getLeaveRequests rest");
+		System.out.println("Entered getLeaveRequestsPM rest");
 		return ServiceFacade.getInstance().getLeaveDAO().getLeaveRequestsPM(projectManager);
+	}
+	
+	
+	@Path("/getLeaveRequestsAdmin")
+	@GET
+	@RolesAllowed("projectManager")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Leave> getLeaveRequestsAdmin() throws Exception{
+		System.out.println("Entered getLeaveRequestsAdmin rest");
+		return ServiceFacade.getInstance().getLeaveDAO().getLeaveRequestsAdmin();
+
 	}
 	
 	
@@ -47,6 +58,9 @@ public class LeaveRest {
 		System.out.println("Entered acceptLeaveRequest rest id:"+leaveRespond.getLeaveID());
 		ServiceFacade.getInstance().getLeaveDAO().respondLeaveRequest(leaveRespond);;
 	}
+	
+	
+
 	
 
 }

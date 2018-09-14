@@ -72,6 +72,43 @@ public class LeaveDAO extends ConnectionHelper{
 		
 	}
 	
+	
+	public ArrayList<Leave> getLeaveRequestsAdmin() throws Exception{
+		
+		Connection conn = getConnection();
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT * FROM users INNER JOIN leaves ");
+		query.append("ON users.email = leaves.email AND status=?");
+		
+		PreparedStatement preparedStmt = conn.prepareStatement(query.toString());
+		preparedStmt.setString(1, "on Admin"); //Admin tarafından onay bekleyen izinleri göster.
+		
+		ResultSet rst = preparedStmt.executeQuery();
+	    ArrayList<Leave> leaveList = new ArrayList<>();
+	    while (rst.next()) {
+	    	Leave leave = new Leave();
+	    	User user = new User();
+	    	
+	    	user.setEmail(rst.getString("email"));
+	    	user.setName(rst.getString("full_name"));
+	    	user.setTotalLeaveDays(rst.getInt("totalLeaveDays"));
+	    	
+	    	leave.setOwner(user);
+	    	leave.setBeginDate(rst.getString("begin_date"));
+	    	leave.setEndDate(rst.getString("end_date"));
+	    	leave.setStatus(rst.getString("status"));
+	    	leave.setId(rst.getLong("id"));
+
+	        leaveList.add(leave);
+	    }
+	    
+	    closeResultSet(rst);
+		closePreparedStatement(preparedStmt);
+		closeConnection(conn);
+		
+		return leaveList;
+	}
+	
 	public void respondLeaveRequest(LeaveResponse leaveResponse) throws Exception {
 		
 		Connection conn = getConnection();
