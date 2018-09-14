@@ -12,6 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.j32bit.leave.bean.Leave;
+import com.j32bit.leave.bean.LeaveResponse;
 import com.j32bit.leave.service.ServiceFacade;
 
 @Path("/leave")
@@ -26,17 +27,26 @@ public class LeaveRest {
 	}
 	
 	
-	@Path("/getLeaveRequests")
+	@Path("/getLeaveRequestsPM")
 	@POST
 	@RolesAllowed("projectManager")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public ArrayList<Leave> getLeaveRequests(String projectManager) throws Exception{
+	public ArrayList<Leave> getLeaveRequestsPM(String projectManager) throws Exception{
 		System.out.println("Entered getLeaveRequests rest");
-		return ServiceFacade.getInstance().getLeaveDAO().getLeaveRequests(projectManager);
+		return ServiceFacade.getInstance().getLeaveDAO().getLeaveRequestsPM(projectManager);
 	}
 	
 	
 
+	@Path("/respondLeaveRequest")
+	@POST
+	@RolesAllowed({"projectManager","admin"})
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void respondLeaveRequest(LeaveResponse leaveRespond) throws Exception {
+		System.out.println("Entered acceptLeaveRequest rest id:"+leaveRespond.getLeaveID());
+		ServiceFacade.getInstance().getLeaveDAO().respondLeaveRequest(leaveRespond);;
+	}
+	
 
 }

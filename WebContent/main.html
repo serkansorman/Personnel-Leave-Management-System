@@ -56,7 +56,7 @@
   	</div>
     <ul id="navbarLinks" class="nav navbar-nav">
       <li id="nav_history" class="active"><a href="#">Leave History</a></li>
-      <li id="nav_leave_requests" ><a href="#leave_requests" onclick="showLeaveRequest()"> <span class="glyphicon glyphicon-envelope"></span> Leave Requests</a></li>
+      <li id="nav_leave_requests" ><a href="#leave_requests" onclick="showLeaveRequestPM()"> <span class="glyphicon glyphicon-envelope"></span> Leave Requests</a></li>
       <li id="nav_project_members"><a href="#">Project Members</a></li>
       <li id="nav_show_personnel"><a href="#" onclick="showAllPersonnel()">Show Personnel</a></li>
       <li id="nav_project_managers"><a href="#"><span class="glyphicon glyphicon-tower"></span> Project Managers</a></li> 
@@ -202,7 +202,6 @@
       <tr>
         <th>Name</th>
         <th>E-mail</th>
-        <th>Role</th>
         <th>Department</th>
         <th>Project Manager's</th>
         <th>Remaining Leaves</th>
@@ -307,8 +306,7 @@ function showAllPersonnel(){
 	      $.each(users, function(key, value) {
 	    	  if(authenticatedUser.email != value.email){ //Giriş yapan admin personellerde gözükmez.
 		    	    $("#personnelTable").append("<tr><td>" + value.name + "</td><td>" + 
-	   	    		value.email + "</td><td>" + 
-	   	    		value.roles + "</td><td>" + 
+	   	    		value.email + "</td><td>" +  
 	   	    		value.department + "</td><td>" + 
 	   	    		value.projectManager + "</td><td>" + 
 	   	    		value.totalLeaveDays +"</td><td>" + 
@@ -327,7 +325,7 @@ function showAllPersonnel(){
 	  });
 }
 
-function showLeaveRequest(){
+function showLeaveRequestPM(){
 	
 	$("#leaveRequestTable > tbody").html("");
 
@@ -335,7 +333,7 @@ function showLeaveRequest(){
 	
 	 $.ajax({
 	    type: "POST",
-	    url: "rest/leave/getLeaveRequests",
+	    url: "rest/leave/getLeaveRequestsPM",
 	    contentType: "application/json",
 	    mimeType: "application/json",
 	    data: authenticatedUser.email,
@@ -351,11 +349,11 @@ function showLeaveRequest(){
    	    		'<button id="' + "d"+leave.id + '">Decline</button>' +"</td></tr>");
 	    	
 	    	 document.getElementById("a"+leave.id).addEventListener("click", function() {
-	    	    	acceptLeaveRequest("a"+leave.id);
+	    	    	respondLeaveRequest("a"+leave.id,"on Admin");
 	    	    }, false);
 	    	 
 	    	 document.getElementById("d"+leave.id).addEventListener("click", function() {
-	    	    	declineLeaveRequest("d"+leave.id);
+	    	    	respondLeaveRequest("d"+leave.id,"Refused");
 	    	    }, false);
 	   	    		
 	      });    
@@ -419,6 +417,7 @@ function getDatePicker(){
 	});
 	
 }
+
 function addLeave() {
 	
 	var newStatus = "on Project Manager";
@@ -434,11 +433,11 @@ function addLeave() {
 
     $.ajax({
         url: 'rest/leave/addLeave',
-        type: 'post',
+        type: 'POST',
         dataType: 'json',
         contentType: 'application/json',
         data: JSON.stringify(leave),
-        success: function (data) {
+        success: function () {
         	alert("Leave request sent successfully, wait response from your project manager.");
         	hideDatePicker();
         },
@@ -467,15 +466,36 @@ function deletePersonnel(email){
 }
 
 
-function acceptLeaveRequest(id){
-	alert(id);
+function respondLeaveRequest(id,status){
+	
+
+	var leaveResponse = {
+			sender: authenticatedUser.email,
+			leaveID: id.substring(1,id.length),
+			status: status
+	}
+	
+    $.ajax({
+        url: 'rest/leave/respondLeaveRequest',
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify(leaveResponse),
+        success: function () {
+        	
+        	if(status == "on Admin")
+        		alert("Leave request is Accepted");
+        	else
+        		alert("Leave request is Refused");
+        	
+        	showLeaveRequestPM(); // Listeyi güncelle
+
+        	
+        },
+    });
 }
 
 
-function declineLeaveRequest(id){
-	alert(id);
-
-}
 
 </script>
 
