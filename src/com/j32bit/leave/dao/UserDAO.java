@@ -39,6 +39,7 @@ public class UserDAO extends ConnectionHelper {
 			user.setEmail(rs2.getString("email"));
 			user.setPassword(rs2.getString("user_pass"));
 			user.setName(rs2.getString("full_name"));
+			user.setDepartment(rs2.getString("department"));
 			user.setProjectManager(rs2.getString("projectManager"));
 			user.setTotalLeaveDays(rs2.getInt("totalLeaveDays"));
 			
@@ -77,8 +78,9 @@ public class UserDAO extends ConnectionHelper {
 		
 	    return userList;
 	
-		
 	}
+	
+	
 	
 	
 	public void deleteUser(String email) throws Exception {

@@ -107,21 +107,7 @@
 <br><br>
 <div class="container">
  <div id="profile" class="well col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xs-offset-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2 hide">
-        <div  class="row user-row">
-            <div class="col-xs-3 col-sm-2 col-md-1 col-lg-1">
-                <img class="img-circle"
-                     src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=50"
-                     alt="User Pic">
-            </div>
-            <div class="col-xs-8 col-sm-9 col-md-10 col-lg-10">
-                <strong id="user_name_title" ></strong><br>
-                <span class="text-muted">User level: </span>
-                <span id="user_role_title" class="text-muted"></span>
-            </div>
-            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 dropdown-user" data-for=".cyruxx">
-                <i class="glyphicon glyphicon-chevron-down text-muted"></i>
-            </div>
-        </div>
+      
         <div class="row user-infos cyruxx">
             <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-1">
                 <div class="panel panel-primary">
@@ -130,18 +116,14 @@
                     </div>
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-md-3 col-lg-3 hidden-xs hidden-sm">
-                                <img class="img-circle"
-                                     src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=100"
-                                     alt="User Pic">
-                            </div>
+                           
                             <div class="col-xs-2 col-sm-2 hidden-md hidden-lg">
                                 <img class="img-circle"
                                      src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=50"
                                      alt="User Pic">
                             </div>
                            	 <div class="col-xs-10 col-sm-10 hidden-md hidden-lg">
-                                <strong id="user_name"> </strong><br>
+                                <h2 id="user_name"> </h2><br>
           
                             </div>
                             
@@ -170,8 +152,6 @@
                                     </tr>
                                     </tbody>
                                 </table>
-             
-                           
                         </div>
                     </div>
                     <div class="panel-footer">
@@ -206,7 +186,6 @@
         <th>Project Manager's</th>
         <th>Remaining Leaves</th>
         <th>Remove</th>
-        
       </tr>
     </thead>
     <tbody>
@@ -216,7 +195,7 @@
 </div>
 
 
-<!-- Leave Request table for projectManager -->
+<!-- Leave Request table for projectManager and Admin -->
 
 <div id="leaveRequestTableDiv" class="container hide">
   <h2>Leave Requests</h2>     
@@ -402,7 +381,7 @@ function showProfile(){
 	 $("#user_name_title").append(authenticatedUser.name);
 	 $("#user_name").append(authenticatedUser.name);
 	 $("#user_email").append(authenticatedUser.email);
-	 $("#user_department").append(authenticatedUser.name);
+	 $("#user_department").append(authenticatedUser.department);
 	 $("#project_manager_email").append(authenticatedUser.projectManager);
 	 $("#total_leave_days").append(authenticatedUser.totalLeaveDays);
 	 
