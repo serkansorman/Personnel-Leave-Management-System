@@ -26,14 +26,17 @@ public class UserDAO extends ConnectionHelper {
 		User user = new User();
 		PreparedStatement preparedStmt = conn.prepareStatement("SELECT * FROM user_roles WHERE email=?");
 		PreparedStatement preparedStmt2 = conn.prepareStatement("SELECT * FROM users WHERE email=?");
+		PreparedStatement preparedStmt3 = conn.prepareStatement("SELECT * FROM leaves WHERE email=?");
 
 		
 		preparedStmt.setString(1, email);
 		preparedStmt2.setString(1, email);
-
+		preparedStmt3.setString(1, email);
 		
 		ResultSet rs = preparedStmt.executeQuery();
 		ResultSet rs2 = preparedStmt2.executeQuery();
+		ResultSet rs3 = preparedStmt3.executeQuery();
+		
 		
 		if(rs.next() && rs2.next()) {
 			user.setEmail(rs2.getString("email"));
@@ -47,11 +50,40 @@ public class UserDAO extends ConnectionHelper {
 			roles.add(rs.getString("role_name"));
 			user.setRoles(roles);
 		}
+		if(rs3.next()) {
+			/*ArrayList<Leave> leaves = new ArrayList<Leave>();
+			leaves.add(new Leave(user,rs3.getString("begin_date"),rs3.getString("end_date"),rs3.getString("status")));
+			user.setLeaves(leaves);*/
+
+			ArrayList<String> begin_dates = new ArrayList<String>();
+			begin_dates.add(rs3.getString("begin_date"));
+			user.setBeginDates(begin_dates);
+			
+			ArrayList<String> end_dates = new ArrayList<String>();
+			end_dates.add(rs3.getString("end_date"));
+			user.setEndDates(end_dates);
+
+			
+			
+			ArrayList<String> statuss = new ArrayList<String>();
+			statuss.add(rs3.getString("status"));
+			user.setStatuss(statuss);
+
+			
+			/*System.out.println("b="+user.getLeaves().get(0).getBeginDate());
+			System.out.println("e="+user.getLeaves().get(0).getEndDate());
+			System.out.println("s="+user.getLeaves().get(0).getStatus());*/
+
+		}
+		
 		
 	    closeResultSet(rs);
 	    closeResultSet(rs2);
+	    closeResultSet(rs3);
+	    
 		closePreparedStatement(preparedStmt);
 		closePreparedStatement(preparedStmt2);
+		closePreparedStatement(preparedStmt3);
 
 		closeConnection(conn);
 		return user;
