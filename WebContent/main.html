@@ -418,15 +418,12 @@ function showLeaveHistory(){
 	
 
 	 
-	 $("#user_status").append(authenticatedUser.statuss[0]);
-	 $("#user_begin_date").append(authenticatedUser.beginDates[0]);
-     $("#user_end_date").append(authenticatedUser.endDates[0]);
-
-	 
+	
 	 var index;
-	 for (index = 0; index < authenticatedUser.roles.length; ++index) {
-		 $("#user_role_titlel").append(authenticatedUser.roles[index]+" ");
-		 $("#user_rolel").append(authenticatedUser.roles[index]+" ttz");
+	 for (index = 0; index < authenticatedUser.statuss.length; ++index) {
+		 $("#user_status").append(authenticatedUser.statuss[index]);
+		 $("#user_begin_date").append(authenticatedUser.beginDates[index]);
+	     $("#user_end_date").append(authenticatedUser.endDates[index]); 
 	 }
 	
 

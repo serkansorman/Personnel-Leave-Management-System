@@ -50,33 +50,38 @@ public class UserDAO extends ConnectionHelper {
 			roles.add(rs.getString("role_name"));
 			user.setRoles(roles);
 		}
-		if(rs3.next()) {
+		int i=0;
+		ArrayList<String> begin_dates = new ArrayList<String>();
+		ArrayList<String> end_dates = new ArrayList<String>();
+		ArrayList<String> statuss = new ArrayList<String>();
+
+
+		while(rs3.next()) {
 			/*ArrayList<Leave> leaves = new ArrayList<Leave>();
 			leaves.add(new Leave(user,rs3.getString("begin_date"),rs3.getString("end_date"),rs3.getString("status")));
 			user.setLeaves(leaves);*/
 
-			ArrayList<String> begin_dates = new ArrayList<String>();
+			
 			begin_dates.add(rs3.getString("begin_date"));
 			user.setBeginDates(begin_dates);
 			
-			ArrayList<String> end_dates = new ArrayList<String>();
 			end_dates.add(rs3.getString("end_date"));
 			user.setEndDates(end_dates);
 
 			
 			
-			ArrayList<String> statuss = new ArrayList<String>();
 			statuss.add(rs3.getString("status"));
 			user.setStatuss(statuss);
 
+		
+
 			
-			/*System.out.println("b="+user.getLeaves().get(0).getBeginDate());
-			System.out.println("e="+user.getLeaves().get(0).getEndDate());
-			System.out.println("s="+user.getLeaves().get(0).getStatus());*/
 
 		}
 		
-		
+        System.out.println("b0="+user.getBeginDates().get(0));
+        System.out.println("b1="+user.getBeginDates().get(1));
+
 	    closeResultSet(rs);
 	    closeResultSet(rs2);
 	    closeResultSet(rs3);
