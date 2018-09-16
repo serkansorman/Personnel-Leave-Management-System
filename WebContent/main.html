@@ -460,7 +460,7 @@ function getDatePicker(){
 	
 	$(document).ready(function() {
 	    jQuery("#txtFrom").datepicker({
-	        dateFormat: 'dd/mm/yy',
+	        dateFormat: 'mm/dd/yy',
 	        changeMonth: true,
 	        changeYear: true,
 	        onClose: function( selectedDate ) {
@@ -468,7 +468,7 @@ function getDatePicker(){
 	        }
 	    });
 	    jQuery("#txtTo").datepicker({
-	        dateFormat: 'dd/mm/yy',
+	        dateFormat: 'mm/dd/yy',
 	        changeMonth: true,
 	        changeYear: true,
 	        onClose: function( selectedDate ) {
@@ -479,43 +479,72 @@ function getDatePicker(){
 	
 }
 
+
+function getWorkDays() {
+	
+	var startDate = new Date(document.getElementById("txtFrom").value);
+	var endDate = new Date(document.getElementById("txtTo").value);
+    var count = 0;
+    var curDate = startDate;
+    
+    
+    while (curDate <= endDate) {
+        var dayOfWeek = curDate.getDay();
+        if(!((dayOfWeek == 6) || (dayOfWeek == 0)))
+           count++;
+        curDate.setDate(curDate.getDate() + 1);
+    }
+    return count;
+}
+
+
 function addLeave() {
 	
 	var status;
-	var personResponse;
-
-	//Proje yöneticisi izin alırsa istek direkt olarak admine gider
-	if($.inArray("employee",authenticatedUser.roles ) != -1){
-		personResponse = "project manager";
-		status = "on Project Manager";
-	}
-	else{
-		personResponse = "Admin";
-		status = "on Admin";
-	}
+	var isEmployee = $.inArray("employee",authenticatedUser.roles);
+	var workDays = getWorkDays();
 	
-	
-    var leave = {
-   	
-        owner: {
-        	email: authenticatedUser.email
-        },
-        beginDate: document.getElementById("txtFrom").value,
-        endDate: document.getElementById("txtTo").value,
-        status: status
-    }
+	// Personelin izin hakkı ile aldığı izin karşılaştırılır.
+	if(workDays <= authenticatedUser.totalLeaveDays){
+		
+		//Personel izin alırsa izin isteği proje yöneticisne yollanır.
+		if(isEmployee != -1)
+			status = "on Project Manager";
+		else//Proje yöneticisi izin alırsa istek direkt olarak admine gider
+			status = "on Admin";
+		
+		
+	    var leave = {
+	   	
+	        owner: {
+	        	email: authenticatedUser.email
+	        },
+	        beginDate: document.getElementById("txtFrom").value,
+	        endDate: document.getElementById("txtTo").value,
+	        status: status
+	    }
 
-    $.ajax({
-        url: 'rest/leave/addLeave',
-        type: 'POST',
-        dataType: 'json',
-        contentType: 'application/json',
-        data: JSON.stringify(leave),
-        success: function () {
-        	alert("Leave request sent successfully, wait response from your "+personResponse);
-        	hideDatePicker();
-        },
-    });
+	    $.ajax({
+	        url: 'rest/leave/addLeave',
+	        type: 'POST',
+	        dataType: 'json',
+	        contentType: 'application/json',
+	        data: JSON.stringify(leave),
+	        success: function () {
+	        	if(isEmployee != -1)
+	        		alert("Number of Work Days: "+workDays+"\nPlease wait response from "+authenticatedUser.projectManager);
+	        	else
+	        		alert("Leave request sent successfully, wait response from Admin");
+				
+	        	
+	        	hideDatePicker();
+	        },
+	    });
+	}else{
+		alert("You do not have enough leave days.")
+	}
+
+	
     
 }
 
