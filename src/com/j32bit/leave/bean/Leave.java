@@ -26,8 +26,8 @@ public class Leave {
 		
 	}
 
-	public Leave(User owner, String beginDate, String endDate, String status, long id) {
-		this(owner,beginDate,endDate,status);
+	public Leave(String beginDate, String endDate, String status, long id) {
+		this(beginDate,endDate,status);
 		this.id = id;
 	}
 

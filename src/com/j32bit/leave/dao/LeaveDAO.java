@@ -135,8 +135,7 @@ public class LeaveDAO extends ConnectionHelper{
 		ResultSet rs = preparedStmt.executeQuery();
 
 		while(rs.next()) {
-			leaves.add(new Leave(rs.getString("begin_date"),rs.getString("end_date"),rs.getString("status")));
-
+			leaves.add(new Leave(rs.getString("begin_date"),rs.getString("end_date"),rs.getString("status"),rs.getLong("id")));
 		}
 	    closeResultSet(rs);	   
 		closePreparedStatement(preparedStmt);
