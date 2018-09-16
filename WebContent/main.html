@@ -449,9 +449,12 @@ function showProfile(){
 	
 }
 
-function showLeaveHistory(){	
-	document.getElementById('ownLeaveTableDiv').className="show";
+function showLeaveHistory(){
+	
+	$("#ownLeaveTable > tbody").html("");
 
+	document.getElementById('ownLeaveTableDiv').className="show";
+	
 	
 	  $.ajax({
 		  url: "rest/leave/getLeaves",
@@ -462,23 +465,27 @@ function showLeaveHistory(){
 		    success: function(leaves){
 		    $.each(leaves, function(key, leave) {
 		    	
-		    	var table = "<tr><td>" + leave.beginDate + "</td><td>" +leave.endDate + "</td><td>" + leave.status ;
-
-		    	// Sadece işlemde olan izin istekleri iptal edilebilir.
+		    	var cancelButton;
+		    	
 		    	if(leave.status == "on Project Manager" || leave.status == "on Admin" )
-			    	table += "</td><td>" + '<button id="' + +leave.id + '">Cancel</button>';
+		    		cancelButton = "</td><td>" + '<button id="' + leave.id + '"onclick="'+"cancelLeave("+leave.id+")"+'">Cancel</button></td>';
 		    	else
-		    		table += "</td><td>";
-		    	table += "</td></tr>";
-		    	$("#ownLeaveTable").append(table);	
-		    			
+		    		cancelButton = "</td><td> </td>"
+		    	cancelButton += "</tr>";
+		    	
+		    	
+		    	$("#ownLeaveTable").append(
+		    			"<tr><td>"  + leave.beginDate 
+		    			+ "</td><td>" + leave.endDate 
+		    			+ "</td><td>" + leave.status
+		    			+ cancelButton);
+		    
 		      });    
 		    },
 		    error: function() {
 		      console.log("getAllUsers error");
 		    }
-		  });
-  
+		  }); 
 }
 
 function getDatePicker(){
@@ -660,6 +667,27 @@ function getPersonnelLeaveHistory(email){
 function hideLeaveRequests(){
 	document.getElementById("leaveRequestTableDiv").className="hide";
 
+}
+
+
+function cancelLeave(leaveID){
+	
+	
+	$.ajax({
+	    url: "rest/leave/cancelLeave",
+	    type: "POST",
+	    mimeType: "application/json",
+	    contentType: "application/json",
+	    data: leaveID.toString(),
+	    success: function() {
+	    	alert("Leave was cancelled succesfully");
+	    	showLeaveHistory();
+	    	
+	    },
+	    error: function(jqXHR, textStatus, errorThrown) {
+	
+	    }
+	  });
 }
 
 

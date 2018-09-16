@@ -143,5 +143,18 @@ public class LeaveDAO extends ConnectionHelper{
 		
 		return leaves;
 	}
+	
+	
+	public void cancelLeave(String leaveID) throws Exception {
+		
+		Connection conn = getConnection();
+		PreparedStatement pst= conn.prepareStatement("Delete from leaves where id=?");
+		pst.setLong(1,Long.parseLong(leaveID));
+		pst.executeUpdate();
+		closePreparedStatement(pst);
+	
+		closeConnection(conn);
+
+	}
 
 }

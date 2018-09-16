@@ -70,6 +70,17 @@ public class LeaveRest {
 	}
 	
 
+	@Path("/cancelLeave")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void cancelLeave(String leaveID) throws Exception {
+		System.out.println("Entered cancelLeave rest");
+
+		ServiceFacade.getInstance().getLeaveDAO().cancelLeave(leaveID);
+		
+	}
+	
+
 	
 
 }
