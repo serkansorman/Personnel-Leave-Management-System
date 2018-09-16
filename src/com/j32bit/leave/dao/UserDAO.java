@@ -26,16 +26,12 @@ public class UserDAO extends ConnectionHelper {
 		User user = new User();
 		PreparedStatement preparedStmt = conn.prepareStatement("SELECT * FROM user_roles WHERE email=?");
 		PreparedStatement preparedStmt2 = conn.prepareStatement("SELECT * FROM users WHERE email=?");
-		PreparedStatement preparedStmt3 = conn.prepareStatement("SELECT * FROM leaves WHERE email=?");
 
-		
 		preparedStmt.setString(1, email);
 		preparedStmt2.setString(1, email);
-		preparedStmt3.setString(1, email);
 		
 		ResultSet rs = preparedStmt.executeQuery();
 		ResultSet rs2 = preparedStmt2.executeQuery();
-		ResultSet rs3 = preparedStmt3.executeQuery();
 		
 		
 		if(rs.next() && rs2.next()) {
@@ -50,45 +46,13 @@ public class UserDAO extends ConnectionHelper {
 			roles.add(rs.getString("role_name"));
 			user.setRoles(roles);
 		}
-		int i=0;
-		ArrayList<String> begin_dates = new ArrayList<String>();
-		ArrayList<String> end_dates = new ArrayList<String>();
-		ArrayList<String> statuss = new ArrayList<String>();
-
-
-		while(rs3.next()) {
-			/*ArrayList<Leave> leaves = new ArrayList<Leave>();
-			leaves.add(new Leave(user,rs3.getString("begin_date"),rs3.getString("end_date"),rs3.getString("status")));
-			user.setLeaves(leaves);*/
-
-			
-			begin_dates.add(rs3.getString("begin_date"));
-			user.setBeginDates(begin_dates);
-			
-			end_dates.add(rs3.getString("end_date"));
-			user.setEndDates(end_dates);
-
-			
-			
-			statuss.add(rs3.getString("status"));
-			user.setStatuss(statuss);
-
 		
-
-			
-
-		}
-		
-        //System.out.println("b0="+user.getBeginDates().get(0));
-        //System.out.println("b1="+user.getBeginDates().get(1));
 
 	    closeResultSet(rs);
 	    closeResultSet(rs2);
-	    closeResultSet(rs3);
 	    
 		closePreparedStatement(preparedStmt);
 		closePreparedStatement(preparedStmt2);
-		closePreparedStatement(preparedStmt3);
 
 		closeConnection(conn);
 		return user;
@@ -117,9 +81,7 @@ public class UserDAO extends ConnectionHelper {
 	
 	}
 	
-	
-	
-	
+
 	public void deleteUser(String email) throws Exception {
 		
 		//users tablosundan silme
