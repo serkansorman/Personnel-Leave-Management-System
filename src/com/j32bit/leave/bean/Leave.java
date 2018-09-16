@@ -13,17 +13,23 @@ public class Leave {
 	}
 	
 	
-
-	public Leave(User owner, String beginDate, String endDate, String status, long id) {
-		super();
-		this.owner = owner;
+	public Leave(String beginDate, String endDate, String status) {
 		this.beginDate = beginDate;
 		this.endDate = endDate;
 		this.status = status;
-		this.id = id;
+		
 	}
 
+	public Leave(User owner, String beginDate, String endDate, String status) {
+		this(beginDate,endDate,status);
+		this.owner = owner;
+		
+	}
 
+	public Leave(User owner, String beginDate, String endDate, String status, long id) {
+		this(owner,beginDate,endDate,status);
+		this.id = id;
+	}
 
 	public User getOwner() {
 		return owner;

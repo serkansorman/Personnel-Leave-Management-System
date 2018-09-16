@@ -57,7 +57,7 @@
      <a class="navbar-brand" href="."> <img class="brand" src="./images/32bit.jpg"></a>
   	</div>
     <ul id="navbarLinks" class="nav navbar-nav">
-      <li id="nav_history" class="active"><a href="#">Leave History</a></li>
+      <li id="nav_history" onclick = "showLeaveHistory()" class="active"><a href="#">Leave History</a></li>
       <li id="nav_leave_requests" ><a href="#leave_requests" onclick="showLeaveRequest()"> <span class="glyphicon glyphicon-envelope"></span> Leave Requests</a></li>
       <li id="nav_project_members"><a href="#">Project Members</a></li>
       <li id="nav_show_personnel"><a href="#" onclick="showAllPersonnel()">Personnels</a></li>
@@ -231,7 +231,22 @@
   </table>
 </div>
 
-
+<div id="leaveRequestTableDivv" class="container hide">
+  <h2>Leave Records</h2>     
+    <table id="leaveRequestTablev" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Begin Date</th>
+        <th>End Date</th>
+        <th>Status</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+    <!-- Dynamic olarak doldurulacak -->   
+    </tbody>
+  </table>
+</div>
 
 <div id="leaveHistoryTableDiv" class="container hide">
   <h2>Leave History</h2>
@@ -434,28 +449,33 @@ function showProfile(){
 	
 }
 
-function showLeaveHistory(){
-	document.getElementById('leaveHistory').className="show";
-	
-	
-
-	 
-	
-	 var index;
-	 for (index = 0; index < authenticatedUser.statuss.length; ++index) {
-		 $("#user_status").append(authenticatedUser.statuss[index]);
-		 $("#user_begin_date").append(authenticatedUser.beginDates[index]);
-	     $("#user_end_date").append(authenticatedUser.endDates[index]); 
-	 }
-	
-
+function showLeaveHistory(){	
+	//document.getElementById('leaveHistory').className="show";
+	document.getElementById('leaveRequestTableDivv').className="show";
 
 	
-	 
-	
-	 
+	  $.ajax({
+		  url: "rest/leave/getLeaves",
+		    type: "POST",
+		    mimeType: "application/json",
+		    contentType: "application/json",
+		    data: authenticatedUser.email,
+		    success: function(leaves){
+		    $.each(leaves, function(key, leave) {
+		    	$("#leaveRequestTablev").append(
+		    			"<tr><td>"  + leave.beginDate 
+		    			+ "</td><td>" + leave.endDate 
+		    			+ "</td><td>" + leave.status );
+
+		      });    
+		    },
+		    error: function() {
+		      console.log("getAllUsers error");
+		    }
+		  });
+  
 }
-	  
+
 function getDatePicker(){
 	
 	$(document).ready(function() {
@@ -463,7 +483,6 @@ function getDatePicker(){
 	        dateFormat: 'mm/dd/yy',
 	        changeMonth: true,
 	        changeYear: true,
-	        minDate:0,
 	        onClose: function( selectedDate ) {
 	        	jQuery( "#txtTo" ).datepicker( "option", "minDate", selectedDate );
 	        }
