@@ -60,11 +60,13 @@ public class LeaveRest {
 	
 	
 	@Path("/getLeaves")
-	@GET
+	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public ArrayList<Leave> getLeaves(LeaveResponse leaveRespond) throws Exception{
-		System.out.println("Entered getLeaveRequestsAdmin rest");
-		return ServiceFacade.getInstance().getLeaveDAO().getLeaves(leaveRespond);
+	@Consumes(MediaType.APPLICATION_JSON)
+	@RolesAllowed({"projectManager","admin"})
+	public ArrayList<Leave> getLeaves(String email) throws Exception{
+		System.out.println("Entered getLeaves rest");
+		return ServiceFacade.getInstance().getLeaveDAO().getLeaves(email);
 
 	}
 	

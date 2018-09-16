@@ -124,10 +124,32 @@ public class LeaveDAO extends ConnectionHelper{
 		closeConnection(conn);
 	}
 	
-	public ArrayList<Leave> getLeaves(LeaveResponse leaveResponse) throws Exception {
+	
+	
+	public ArrayList<Leave> getLeaves(String email) throws Exception {
 		
-		ArrayList<Leave> a = new ArrayList<Leave>();
-		return a;
+		Connection conn = getConnection();
+		PreparedStatement preparedStmt = conn.prepareStatement("SELECT * FROM leaves WHERE email=?");
+		preparedStmt.setString(1,email);
+		
+		ResultSet rst = preparedStmt.executeQuery();
+	    ArrayList<Leave> leaveList = new ArrayList<>();
+	    while (rst.next()) {
+	    	Leave leave = new Leave();
+	    	 	
+	    	leave.setBeginDate(rst.getString("begin_date"));
+	    	leave.setEndDate(rst.getString("end_date"));
+	    	leave.setStatus(rst.getString("status"));
+	    	leave.setId(rst.getLong("id"));
+
+	        leaveList.add(leave);
+	    }
+	    
+	    closeResultSet(rst);
+		closePreparedStatement(preparedStmt);
+		closeConnection(conn);
+		
+		return leaveList;
 	}
 
 
