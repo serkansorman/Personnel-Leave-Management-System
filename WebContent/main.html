@@ -463,6 +463,7 @@ function getDatePicker(){
 	        dateFormat: 'mm/dd/yy',
 	        changeMonth: true,
 	        changeYear: true,
+	        minDate:0,
 	        onClose: function( selectedDate ) {
 	        	jQuery( "#txtTo" ).datepicker( "option", "minDate", selectedDate );
 	        }

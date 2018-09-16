@@ -1,7 +1,9 @@
 Navigation barın button erişimleri yapılacak.
-İzin ile ilgili add,update,remove gibi işlemlerin REST methodları yazılmalı.
+İzin ile ilgili remove metodu yazılacak.
 Personele aldığı izinin güncel durumu gösterilmeli.
-Datepickerin gerekli kontrolleri yapılıp (Bugünün tarihinden öncesi başlangıç olarak seçilememe vs.) bootstrap yapılmalı
-Datepickerden alınan izin tarihlerinin arasındaki iş günü sayısını hesaplayan metod yazılacak.
 Admin tarafından izin onayı yapıldığında hesaplanan iş günü kadar kullanıcının izninden düşülecek.
-Admin sisteme kullanıcı ekleme,silme,update etme işlemi yapabilmeli.
+Admin sisteme kullanıcı ekleme,update işlemi yapabilmeli.
+Datepicker bootstrap yapılacak.
+Navigation bar üzerinde farklı butonlara erişildiğinde yapılan show hide işlemleri düzenlenecek.
+Admin izin alan kullanıcının izin günlerini calander üzerinde görecek.
+Proje yöneticisi kendi altında çalışan grup üyelerinin izin durumuna erişebilmeli.
