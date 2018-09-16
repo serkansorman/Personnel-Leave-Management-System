@@ -2,6 +2,7 @@ package com.j32bit.leave.rest;
 
 import java.util.ArrayList;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -61,6 +62,7 @@ public class LeaveRest {
 	
 	@Path("/getLeaves")
 	@POST
+	@PermitAll
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public ArrayList<Leave> getLeaves(String email) throws Exception{

@@ -231,9 +231,9 @@
   </table>
 </div>
 
-<div id="leaveRequestTableDivv" class="container hide">
+<div id="ownLeaveTableDiv" class="container hide">
   <h2>Leave Records</h2>     
-    <table id="leaveRequestTablev" class="table table-striped">
+    <table id="ownLeaveTable" class="table table-striped">
     <thead>
       <tr>
         <th>Begin Date</th>
@@ -450,8 +450,7 @@ function showProfile(){
 }
 
 function showLeaveHistory(){	
-	//document.getElementById('leaveHistory').className="show";
-	document.getElementById('leaveRequestTableDivv').className="show";
+	document.getElementById('ownLeaveTableDiv').className="show";
 
 	
 	  $.ajax({
@@ -462,7 +461,7 @@ function showLeaveHistory(){
 		    data: authenticatedUser.email,
 		    success: function(leaves){
 		    $.each(leaves, function(key, leave) {
-		    	$("#leaveRequestTablev").append(
+		    	$("#ownLeaveTable").append(
 		    			"<tr><td>"  + leave.beginDate 
 		    			+ "</td><td>" + leave.endDate 
 		    			+ "</td><td>" + leave.status );
@@ -483,6 +482,7 @@ function getDatePicker(){
 	        dateFormat: 'mm/dd/yy',
 	        changeMonth: true,
 	        changeYear: true,
+ 	        minDate:0, 
 	        onClose: function( selectedDate ) {
 	        	jQuery( "#txtTo" ).datepicker( "option", "minDate", selectedDate );
 	        }
