@@ -2,7 +2,6 @@ package com.j32bit.leave.rest;
 
 import java.util.ArrayList;
 
-import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -20,7 +19,7 @@ public class LeaveRest {
 	
 	@Path("/addLeave")
 	@POST
-	@PermitAll
+	@RolesAllowed({"projectManager","employee"})
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void addLeave(Leave leave) throws Exception {
 		ServiceFacade.getInstance().getLeaveDAO().addLeave(leave);

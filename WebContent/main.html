@@ -49,29 +49,22 @@
 </head>
 <body>
 
+<!-- Navbar -->
+
  <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
      <a class="navbar-brand" href="."> <img class="brand" src="./images/32bit.jpg"></a>
   	</div>
     <ul id="navbarLinks" class="nav navbar-nav">
-      <li id="nav_history" onclick = "showLeaveHistory()" class="active"><a href="#">Leave History</a></li>
+      <li id="nav_history" class="active"><a href="#">Leave History</a></li>
       <li id="nav_leave_requests" ><a href="#leave_requests" onclick="showLeaveRequest()"> <span class="glyphicon glyphicon-envelope"></span> Leave Requests</a></li>
       <li id="nav_project_members"><a href="#">Project Members</a></li>
-      <li id="nav_show_personnel"><a href="#" onclick="showAllPersonnel()">Show Personnel</a></li>
-      <li id="nav_project_managers"><a href="#"><span class="glyphicon glyphicon-tower"></span> Project Managers</a></li> 
+      <li id="nav_show_personnel"><a href="#" onclick="showAllPersonnel()">Personnels</a></li>
+      <li id="nav_project_managers"><a href="#"><span class="glyphicon glyphicon-tower"></span> Project Managers</a></li>
+      <li id="nav_add_leave"><a href="#" onclick="showDatePicker()"><span class="glyphicon glyphicon-send"></span> Send Leave Request</a></li>
     </ul>
-     <ul class="nav navbar-nav">
-    <li class="dropdown">
-        <a id="nav_leave_process" class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-send"></span> Leave
-        <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li><a href="#" onclick="showDatePicker()" >Create Leave Request</a></li>
-          <li><a href="#">Update Leave</a></li>
-          <li><a href="#">Remove Leave</a></li>
-        </ul>
-      </li>
-      </ul>
+     
     <ul class="nav navbar-nav navbar-right">
       <li><a id="nav_profile" onclick = "showProfile()" href="#profile"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
       <li><a href="#" onclick="logout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
@@ -244,7 +237,6 @@
 
 <script type="text/javascript">
 $("#navbarLinks > li").hide(); // Navbardaki butonları başlangıçta gizle
-$("#nav_leave_process").hide(); // Dropdown butonunu başlangıçta gizle
 var authenticatedUser;
 var beginDate;
 var endDate;
@@ -270,11 +262,11 @@ function authenticateUser() {
 	          	else if(value == "projectManager"){
 	          	  $("#nav_leave_requests").show();
 	              $("#nav_project_members").show();
-	              $("#nav_leave_process").show();
+	              $("#nav_add_leave").show();
 	          	}
 	          	else{
 	          	  $("#nav_history").show();
-	              $("#nav_leave_process").show();
+	              $("#nav_add_leave").show();
 	          	}
 	        });
 	      }
@@ -459,7 +451,20 @@ function getDatePicker(){
 
 function addLeave() {
 	
-	var newStatus = "on Project Manager";
+	var status;
+	var personResponse;
+
+	//Proje yöneticisi izin alırsa istek direkt olarak admine gider
+	if($.inArray("employee",authenticatedUser.roles ) != -1){
+		personResponse = "project manager";
+		status = "on Project Manager";
+	}
+	else{
+		personResponse = "Admin";
+		status = "on Admin";
+	}
+	
+	
     var leave = {
    	
         owner: {
@@ -467,7 +472,7 @@ function addLeave() {
         },
         beginDate: document.getElementById("txtFrom").value,
         endDate: document.getElementById("txtTo").value,
-        status: newStatus
+        status: status
     }
 
     $.ajax({
@@ -477,7 +482,7 @@ function addLeave() {
         contentType: 'application/json',
         data: JSON.stringify(leave),
         success: function () {
-        	alert("Leave request sent successfully, wait response from your project manager.");
+        	alert("Leave request sent successfully, wait response from your "+personResponse);
         	hideDatePicker();
         },
     });
