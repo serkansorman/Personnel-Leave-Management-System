@@ -79,8 +79,8 @@ public class UserDAO extends ConnectionHelper {
 
 		}
 		
-        System.out.println("b0="+user.getBeginDates().get(0));
-        System.out.println("b1="+user.getBeginDates().get(1));
+        //System.out.println("b0="+user.getBeginDates().get(0));
+        //System.out.println("b1="+user.getBeginDates().get(1));
 
 	    closeResultSet(rs);
 	    closeResultSet(rs2);

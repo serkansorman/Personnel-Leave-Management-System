@@ -123,6 +123,12 @@ public class LeaveDAO extends ConnectionHelper{
 		closePreparedStatement(preparedStmt);
 		closeConnection(conn);
 	}
+	
+	public ArrayList<Leave> getLeaves(LeaveResponse leaveResponse) throws Exception {
+		
+		ArrayList<Leave> a = new ArrayList<Leave>();
+		return a;
+	}
 
 
 	

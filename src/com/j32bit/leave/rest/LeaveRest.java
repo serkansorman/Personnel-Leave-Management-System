@@ -60,6 +60,15 @@ public class LeaveRest {
 	}
 	
 	
+	@Path("/getLeaves")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Leave> getLeaves(LeaveResponse leaveRespond) throws Exception{
+		System.out.println("Entered getLeaveRequestsAdmin rest");
+		return ServiceFacade.getInstance().getLeaveDAO().getLeaves(leaveRespond);
+
+	}
+	
 
 	
 
