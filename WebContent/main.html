@@ -63,6 +63,8 @@
       <li id="nav_show_personnel"><a href="#" onclick="showAllPersonnel()">Personnels</a></li>
       <li id="nav_project_managers"><a href="#"><span class="glyphicon glyphicon-tower"></span> Project Managers</a></li>
       <li id="nav_add_leave"><a href="#" onclick="showDatePicker()"><span class="glyphicon glyphicon-send"></span> Send Leave Request</a></li>
+      <li id="nav_add_leave_days"><a href="#" onclick="showAddLeave()" >Add Leave Day</a></li>
+      
     </ul>
      
     <ul class="nav navbar-nav navbar-right">
@@ -267,6 +269,22 @@
 </div>
 
 
+
+<!-- İzin hakedediş formu -->
+
+<form action="" class="hide" id="leaveDaysForm">
+ <div class="col">
+Total Leave Days: <input id="inputLeaveDays" type="number" min="1" max="30"><br>
+</div>
+Personnels:
+<select id="selectPersonEmail">
+</select>
+<input type="button" onclick="addLeaveAdmin()" value="Add Leave Days">
+</form>
+</body>
+
+
+
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
@@ -294,6 +312,8 @@ function authenticateUser() {
 	                $("#nav_leave_requests").show();
 	                $("#nav_project_managers").show();
 	                $("#nav_show_personnel").show();
+	                $("#nav_add_leave_days").show();
+
 	          	}
 	          	else if(value == "projectManager"){
 	          	  $("#nav_leave_requests").show();
@@ -710,7 +730,53 @@ function decreaseUserLeaveDays(leave){
 	    });
 }
 
+function showAddLeave(){
+	document.getElementById('leaveDaysForm').className="show";
+	
+	$.ajax({
+	    type: "GET",
+	    url: 'rest/user/getAllUsers',
+	    contentType: "application/json",
+	    mimeType: "application/json",
+	    success: function(users) {
+	      $.each(users, function(key, value) {
+	    	  if(authenticatedUser.email != value.email){ //Giriş yapan admin personellerde gözükmez.
+		    	    $("#selectPersonEmail").append("<option>"+value.email+"</option>");
+	    	  }
+	      });
+	    },
+	    error: function() {
+	      console.log("getAllUsers error");
+	    }
+	  });
 
+}
+
+
+
+function addLeaveAdmin(){
+	
+	var email = $('#selectPersonEmail').val();
+	var leaveDays =  $('#inputLeaveDays').val();
+	
+	var user = {
+			email: email,
+			totalLeaveDays: leaveDays
+	}
+	
+	 $.ajax({
+	        url: 'rest/user/addUserLeaveDays',
+	        type: 'POST',
+	        dataType: 'json',
+	        contentType: 'application/json',
+	        data: JSON.stringify(user),
+	        success: function () {
+			    	alert(leaveDays+" leave days added to "+user.email);
+			    	document.getElementById('leaveDaysForm').className="hide";
+
+	        },
+	    });
+}
 
 
 </script>

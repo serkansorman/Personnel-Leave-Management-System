@@ -3,6 +3,7 @@ package com.j32bit.leave.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -113,6 +114,20 @@ public class UserDAO extends ConnectionHelper {
 		//Personelin izin gününden alınan izin düşülür.
 		preparedStmt.setInt(1,leave.getOwner().getTotalLeaveDays() - leave.getWorkDays() );
 		preparedStmt.setString(2, leave.getOwner().getEmail());
+
+		preparedStmt.execute();
+		
+		closePreparedStatement(preparedStmt);
+		closeConnection(conn);
+	}
+	
+	public void addUserLeaveDays(User user) throws Exception {
+		
+		Connection conn = getConnection();
+		PreparedStatement preparedStmt = conn.prepareStatement("UPDATE users SET totalLeaveDays=? WHERE email=?");
+		
+		preparedStmt.setInt(1,user.getTotalLeaveDays());
+		preparedStmt.setString(2, user.getEmail());
 
 		preparedStmt.execute();
 		

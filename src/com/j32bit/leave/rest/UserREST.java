@@ -67,5 +67,15 @@ public class UserREST {
 		ServiceFacade.getInstance().getUserDAO().decreaseUserLeaveDays(leave);
 
 	}
+	
+	@Path("/addUserLeaveDays")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@RolesAllowed("admin")
+	public void addUserLeaveDays(User user) throws Exception {
+		System.out.println("Entered addUserLeaveDays rest");
+		ServiceFacade.getInstance().getUserDAO().addUserLeaveDays(user);
+	}
+
 
 }
