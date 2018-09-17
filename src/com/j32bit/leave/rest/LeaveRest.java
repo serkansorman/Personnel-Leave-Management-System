@@ -56,7 +56,8 @@ public class LeaveRest {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void respondLeaveRequest(LeaveResponse leaveRespond) throws Exception {
 		System.out.println("Entered acceptLeaveRequest rest id:"+leaveRespond.getLeaveID());
-		ServiceFacade.getInstance().getLeaveDAO().respondLeaveRequest(leaveRespond);;
+		ServiceFacade.getInstance().getLeaveDAO().respondLeaveRequest(leaveRespond);
+					
 	}
 	
 	
@@ -72,12 +73,11 @@ public class LeaveRest {
 
 	@Path("/cancelLeave")
 	@POST
+	@RolesAllowed("employee")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void cancelLeave(String leaveID) throws Exception {
 		System.out.println("Entered cancelLeave rest");
-
-		ServiceFacade.getInstance().getLeaveDAO().cancelLeave(leaveID);
-		
+		ServiceFacade.getInstance().getLeaveDAO().cancelLeave(leaveID);	
 	}
 	
 

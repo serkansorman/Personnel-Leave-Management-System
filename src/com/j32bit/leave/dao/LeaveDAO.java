@@ -19,12 +19,14 @@ public class LeaveDAO extends ConnectionHelper{
 	public void addLeave(Leave leave) throws Exception {
 		
 		Connection conn = getConnection();
-		PreparedStatement preparedStmt = conn.prepareStatement("INSERT INTO leaves (email,begin_date,end_date,status) VALUES (?,?,?,?)");
+		PreparedStatement preparedStmt = conn.prepareStatement("INSERT INTO leaves (email,begin_date,end_date,status,work_days) VALUES (?,?,?,?,?)");
 		
 		preparedStmt.setString(1, leave.getOwner().getEmail());
 		preparedStmt.setString(2, leave.getBeginDate());
 		preparedStmt.setString(3, leave.getEndDate());
 		preparedStmt.setString(4, leave.getStatus());
+		preparedStmt.setInt(5, leave.getWorkDays());
+
 		
 		preparedStmt.execute();
 		
@@ -59,6 +61,7 @@ public class LeaveDAO extends ConnectionHelper{
 	    	leave.setEndDate(rst.getString("end_date"));
 	    	leave.setStatus(rst.getString("status"));
 	    	leave.setId(rst.getLong("id"));
+	    	leave.setWorkDays(rst.getInt("work_days"));
 
 	        leaveList.add(leave);
 	    }
@@ -97,6 +100,8 @@ public class LeaveDAO extends ConnectionHelper{
 	    	leave.setEndDate(rst.getString("end_date"));
 	    	leave.setStatus(rst.getString("status"));
 	    	leave.setId(rst.getLong("id"));
+	    	leave.setWorkDays(rst.getInt("work_days"));
+
 
 	        leaveList.add(leave);
 	    }

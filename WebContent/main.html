@@ -395,8 +395,10 @@ function showLeaveRequest(){
 	    		 	admine iletilmek üzere statusu on Admin yapılır*/
 	    		 	if(isAdmin == -1)
 	    	    		respondLeaveRequest("a"+leave.id,"on Admin");
-	    		 	else// Admine gelen izin onaylanırsa izin kabul edilir.
+	    		 	else{// Admine gelen izin onaylanırsa izin kabul edilir.
 	    	    		respondLeaveRequest("a"+leave.id,"Accepted");
+						decreaseUserLeaveDays(leave);
+	    		 	}
 	    	  }, false);
 	    	 
 	    	 //Admin veya proje yöneticisinin izin isteiğini reddetmesi
@@ -554,7 +556,8 @@ function addLeave() {
 	        },
 	        beginDate: document.getElementById("txtFrom").value,
 	        endDate: document.getElementById("txtTo").value,
-	        status: status
+	        status: status,
+	        workDays: workDays
 	    }
 
 	    $.ajax({
@@ -619,9 +622,10 @@ function respondLeaveRequest(id,status){
         data: JSON.stringify(leaveResponse),
         success: function () {
         	
-        	if(status == "on Admin" || status == "Accepted")
+        	if(status == "on Admin" )
+        		alert("Leave request sent to Admin");
+        	else if(status == "Accepted")
         		alert("Leave request is Accepted");
-  
         	else
         		alert("Leave request is Refused");
         	
@@ -688,6 +692,22 @@ function cancelLeave(leaveID){
 	
 	    }
 	  });
+}
+
+
+function decreaseUserLeaveDays(leave){
+	
+
+	 $.ajax({
+	        url: 'rest/user/decreaseUserLeaveDays',
+	        type: 'POST',
+	        dataType: 'json',
+	        contentType: 'application/json',
+	        data: JSON.stringify(leave),
+	        success: function () {
+			     console.log("User: "+leave.owner.email+" leave days decreased");	
+	        },
+	    });
 }
 
 

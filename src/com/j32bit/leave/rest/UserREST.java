@@ -14,6 +14,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import com.j32bit.leave.bean.Leave;
 import com.j32bit.leave.bean.User;
 import com.j32bit.leave.service.ServiceFacade;
 
@@ -43,7 +44,6 @@ public class UserREST {
 	@Produces(MediaType.APPLICATION_JSON)
 	public ArrayList<User> getAllUser() throws Exception{
 		System.out.println("Entered getAllUser rest");
-
 		return ServiceFacade.getInstance().getUserDAO().getAllUsers();
 	}
 	
@@ -55,6 +55,17 @@ public class UserREST {
 	public void deleteUser(String email) throws Exception {
 		System.out.println("Entered deleteUser rest");
 		ServiceFacade.getInstance().getUserDAO().deleteUser(email);
+	}
+	
+
+	@Path("/decreaseUserLeaveDays")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@RolesAllowed("admin")
+	public void decreaseUserLeaveDays(Leave leave) throws Exception {
+		System.out.println("Entered decreaseUserLeaveDays rest");
+		ServiceFacade.getInstance().getUserDAO().decreaseUserLeaveDays(leave);
+
 	}
 
 }

@@ -7,6 +7,8 @@ public class Leave {
 	private String endDate;
 	private String status;
 	private long id;
+	private int workDays;
+	
 	
 	public Leave() {
 		
@@ -69,6 +71,15 @@ public class Leave {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+	
+	public int getWorkDays() {
+		return workDays;
+	}
+
+
+	public void setWorkDays(int workDays) {
+		this.workDays = workDays;
 	}
 
 	
