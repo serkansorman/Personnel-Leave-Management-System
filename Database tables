@@ -3,7 +3,8 @@ CREATE TABLE leaves (
     email varchar(30) NOT NULL,
     begin_date varchar(10) NOT NULL,
     end_date varchar(10) NOT NULL,
-    status varchar(20) NOT NULL
+    status varchar(20) NOT NULL,
+    work_days int(5) NOT NULL
 )
 
 CREATE TABLE users (
