@@ -76,6 +76,27 @@ public class UserREST {
 		System.out.println("Entered addUserLeaveDays rest");
 		ServiceFacade.getInstance().getUserDAO().addUserLeaveDays(user);
 	}
+	
+	@Path("/addNewUser")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@RolesAllowed("admin")
+	public void addNewUser(User user) throws Exception {
+		System.out.println("Name:" + user.getName());
+		System.out.println("Email:" + user.getEmail());
+		System.out.println("ProjectManager:" + user.getProjectManager());
+		System.out.println("Department:" + user.getDepartment());
+		
+		for(int i=0;i<user.getRoles().size();i++) {
+			System.out.println("Roles["+i+"]=" + user.getRoles().get(i) );
+		}
+		
+		ServiceFacade.getInstance().getUserDAO().addNewUser(user);
+
+
+		
+	}
+
 
 
 }

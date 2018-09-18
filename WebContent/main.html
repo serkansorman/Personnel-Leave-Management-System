@@ -64,6 +64,7 @@
       <li id="nav_project_managers"><a href="#"><span class="glyphicon glyphicon-tower"></span> Project Managers</a></li>
       <li id="nav_add_leave"><a href="#" onclick="showDatePicker()"><span class="glyphicon glyphicon-send"></span> Send Leave Request</a></li>
       <li id="nav_add_leave_days"><a href="#" onclick="showAddLeave()" >Add Leave Day</a></li>
+      <li id="nav_add_new_user" onclick = "addNewUserPageShow()" ><a href="#"><span class="glyphicon glyphicon-plus"></span> Add New User</a></li>
       
     </ul>
      
@@ -82,18 +83,48 @@
                                 <table class="table table-user-information">
                                     <tbody>
                                      <tr>
-                                        <td id="user_begin_date" >user_begin_date: </td>                               
+                                        <td >user_begin_date: </td>                               
                                     </tr>
                                      <tr>
-                                        <td id="user_end_date" >user_end_date: </td>                               
+                                        <td >user_end_date: </td>                               
                                     </tr>
                                      <tr>
-                                        <td id="user_status" >user_status: </td>                               
+                                        <td >user_status: </td>                               
                                     </tr>
                                     </tbody>
                                 </table>             
                           
 </div> 
+
+
+
+ <br><br>
+ 
+
+                         
+<form id="addNewUserForm" class="hide">
+  E-Mail:<br>
+  <input type="text" name="email" value="Mickey" id="email">
+  <br>
+  Full Name:<br>
+  <input type="text" name="fullName"  id="fullName" value="Mouse">
+  <br>
+  Project Manager:<br>
+  <input type="text" name="projectManager" value="Mickey" id="projectManager">
+  <br>
+  Department:<br>
+  <input type="text" name="department" id="department" value="Mouse">
+  <br>
+  Admin: <input type="checkbox" id="adminCheckBox">
+    <br>
+  Project Manager: <input type="checkbox" id="projectManagerCheckBox">
+    <br>
+  Employee: <input type="checkbox" id="employeeCheckBox">
+  <br><br>
+   <button id="add" type="button" onclick="addNewUser()">Add</button>
+</form>     
+                          
+
 
 <table id="datepicker" class="hide" border="0" cellpadding="0" cellspacing="0">
         <tr>
@@ -211,7 +242,8 @@
 
 <!-- Leave Request table for projectManager and Admin -->
 
-<div id="leaveRequestTableDiv" class="container hide">
+<div id="leaveRequestTableDiv" class="container hide	                
+">
   <h2>Leave Requests</h2>     
     <table id="leaveRequestTable" class="table table-striped">
     <thead>
@@ -313,7 +345,7 @@ function authenticateUser() {
 	                $("#nav_project_managers").show();
 	                $("#nav_show_personnel").show();
 	                $("#nav_add_leave_days").show();
-
+	                $("#nav_add_new_user").show();
 	          	}
 	          	else if(value == "projectManager"){
 	          	  $("#nav_leave_requests").show();
@@ -729,6 +761,77 @@ function decreaseUserLeaveDays(leave){
 	        },
 	    });
 }
+
+function addNewUserPageShow(){
+	document.getElementById("addNewUserForm").className="show";
+}
+
+
+function addNewUser(){
+	var email = $('#email').val();
+	var fullName =  $('#fullName').val();
+	var projectManager = $('#projectManager').val();
+	var department =  $('#department').val();
+	
+	var projectManagerCheckBox = document.getElementById("projectManagerCheckBox").checked;
+	var employeeCheckBox = document.getElementById("employeeCheckBox").checked;
+	var adminCheckBox = document.getElementById("adminCheckBox").checked;
+	
+	var roles = [];
+	
+	if(projectManagerCheckBox==true && employeeCheckBox==true && adminCheckBox==true){
+		roles[0]="projectManager";
+		roles[1]="admin";
+		roles[2]="employee";
+	}
+	else if(projectManagerCheckBox==true && employeeCheckBox==true ){
+		roles[0]="projectManager";
+		roles[1]="employee";
+	}
+	else if(employeeCheckBox==true && adminCheckBox==true){
+		roles[0]="admin";
+		roles[1]="employee";
+	}
+	else if(projectManagerCheckBox==true && adminCheckBox==true){
+		roles[0]="admin";
+		roles[1]="projectManager";
+	}
+	else if(projectManagerCheckBox==true){
+		roles[0]="projectManager";
+	}
+	else if(employeeCheckBox==true){
+		roles[0]="employee";
+	}
+	else if(adminCheckBox==true){
+		roles[0]="admin";
+	}
+	
+	
+
+	
+	
+	var user = {
+			email: email,
+			department: department,
+			projectManager: projectManager,
+			name: fullName,
+			roles:roles
+	}
+	
+	 $.ajax({
+	        url: 'rest/user/addNewUser',
+	        type: 'POST',
+	        dataType: 'json',
+	        contentType: 'application/json',
+	        data: JSON.stringify(user),
+	        success: function () {
+			    	alert(leaveDays+" leave days added to "+user.email);
+			    	document.getElementById('leaveDaysForm').className="hide";
+
+	        },
+	    });
+}
+
 
 function showAddLeave(){
 	document.getElementById('leaveDaysForm').className="show";
