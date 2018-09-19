@@ -351,21 +351,21 @@ Personnels:
 	<div class="form-group">
 		<label for="title" class="col-sm-2 control-label">Title</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control" id="title" name="title" placeholder="About Personnel xxxxx Leave">
+			<input type="text" class="form-control" id="title" name="title" placeholder="About Personnel ..... Leave">
 		</div>
 	</div>
 	<br><br><br>
 	<div class="form-group">
 		<label for="message" class="col-sm-2 control-label">Message</label>
 		<div class="col-sm-10">
-			<textarea class="form-control" rows="4" name="message"></textarea>
+			<textarea id="content" class="form-control" rows="4" name="message"></textarea>
 		</div>
 	</div>
 	
 	<div class="form-group">
 		<div class="col-sm-10 col-sm-offset-2">
 		<br>
-			<input id="submit" name="submit" type="submit" value="Send" class="btn btn-primary">
+			<input id="submit" name="submit" value="Send" class="btn btn-primary">
 		</div>
 	</div>
 </form>
@@ -967,12 +967,17 @@ function getProjectManagers(){
 		    	    	deletePersonnel(value.email);
 		    	    }, false);
 	   	    		
-	   	    		
+	   	    	
 		    	    document.getElementById("c"+value.email).addEventListener("click", function() {
 		    	    	document.getElementById('pmanagerTableDiv').className="hide";
 		    	    	document.getElementById('messageForm').className="show";
 
 
+		    	    }, false);
+		    	    
+		    	    
+		    	    document.getElementById("submit").addEventListener("click", function() {
+		    	    	sendMessage(value.email);
 		    	    }, false);
 	    	  }
 	      });
@@ -981,6 +986,33 @@ function getProjectManagers(){
 	      console.log("getAllUsers error");
 	    }
 	  });
+}
+
+
+
+function sendMessage(receiverEmail){
+	
+	
+	var message = {
+			sender: authenticatedUser.email,
+			receiver: receiverEmail,
+			title: document.getElementById("title").value,
+			content: document.getElementById("content").value
+	}
+	
+	
+	$.ajax({
+        url: 'rest/message/sendMessage',
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify(message),
+        success: function () {
+		    	alert("Message Sent!");
+        },
+    });
+	
+		
 }
 
 

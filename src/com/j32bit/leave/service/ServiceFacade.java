@@ -4,6 +4,7 @@ package com.j32bit.leave.service;
 import java.util.Properties;
 
 import com.j32bit.leave.dao.LeaveDAO;
+import com.j32bit.leave.dao.MessageDAO;
 import com.j32bit.leave.dao.UserDAO;
 
 
@@ -12,6 +13,7 @@ public class ServiceFacade {
 	private static ServiceFacade serviceFacade;
 	private UserDAO userDAO;
 	private LeaveDAO leaveDAO;
+	private MessageDAO messageDAO;
 	
 	public ServiceFacade(){
 		
@@ -29,8 +31,10 @@ public class ServiceFacade {
 		
 		leaveDAO = new LeaveDAO();
 		leaveDAO.start(prop);
+		
+		messageDAO = new MessageDAO();
+		messageDAO.start(prop);
 	}
-	
 	
 
 	public void finish() {
@@ -45,6 +49,10 @@ public class ServiceFacade {
 
 	public LeaveDAO getLeaveDAO() {
 		return leaveDAO;
+	}
+	
+	public MessageDAO getMessageDAO() {
+		return messageDAO;
 	}
 
 }
