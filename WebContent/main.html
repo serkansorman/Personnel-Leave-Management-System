@@ -59,6 +59,7 @@
     <ul id="navbarLinks" class="nav navbar-nav">
       <li id="nav_history" onclick = "showLeaveHistory()" class="active"><a href="#">Leave History</a></li>
       <li id="nav_leave_requests" ><a href="#leave_requests" onclick="showLeaveRequest()"> <span class="glyphicon glyphicon-envelope"></span> Leave Requests</a></li>
+      <li id="nav_leave_messages" ><a href="#l" onclick="getMessages()"> <span class="glyphicon glyphicon-envelope"></span> Inbox</a></li>
       <li id="nav_project_members"><a href="#">Project Members</a></li>
       <li id="nav_show_personnel"><a href="#" onclick="showAllPersonnel()">Personnels</a></li>
       <li id="nav_project_managers"><a href="#" onclick="getProjectManagers()"><span class="glyphicon glyphicon-tower"></span> Project Managers</a></li>
@@ -291,6 +292,7 @@
   </table>
 </div>
 
+<!-- İzin geçmişi -->
 <div id="ownLeaveTableDiv" class="container hide">
   <h2>Leave Records</h2>     
     <table id="ownLeaveTable" class="table table-striped">
@@ -308,6 +310,8 @@
   </table>
 </div>
 
+
+<!-- Admin ve proje yöneticisi tarafından görüntülenen izin geçmişi -->
 <div id="leaveHistoryTableDiv" class="container hide">
   <h2>Leave History</h2>
   <h3 id="personnelEmail"></h3>     
@@ -345,7 +349,7 @@ Personnels:
 
 
 
-
+<!-- Mesaj gönderme formu -->
 <form id="messageForm" class="form-horizontal hide" role="form" method="post" action="index.php">
 	
 	<div class="form-group">
@@ -369,6 +373,24 @@ Personnels:
 		</div>
 	</div>
 </form>
+
+
+<!-- Mesaj sayfası -->
+<div id="messagesTableDiv" class="container hide">
+  <h2>Messages</h2>     
+    <table id="messagesTable" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Sender</th>
+        <th>Title</th>
+        <th>Content</th>
+      </tr>
+    </thead>
+    <tbody>
+    <!-- Dynamic olarak doldurulacak -->   
+    </tbody>
+  </table>
+</div>
 
 
 </body>
@@ -404,11 +426,14 @@ function authenticateUser() {
 	                $("#nav_show_personnel").show();
 	                $("#nav_add_leave_days").show();
 	                $("#nav_add_new_user").show();
+	                $("#nav_leave_messages").show();
+
 	          	}
 	          	else if(value == "projectManager"){
 	          	  $("#nav_leave_requests").show();
 	              $("#nav_project_members").show();
 	              $("#nav_add_leave").show();
+	              $("#nav_leave_messages").show();
 	          	}
 	          	else{
 	          	  $("#nav_history").show();
@@ -1008,7 +1033,7 @@ function sendMessage(receiverEmail){
         contentType: 'application/json',
         data: JSON.stringify(message),
         success: function () {
-		    	alert("Message Sent!");
+		    	alert("Message Sent to "+receiverEmail);
         },
     });
 	
@@ -1016,10 +1041,35 @@ function sendMessage(receiverEmail){
 }
 
 
+function getMessages(){
+	
+	
+	$("#messagesTable > tbody").html("");
 
-
-
-
+	document.getElementById('messagesTableDiv').className="show";
+	
+	
+	$.ajax({
+        url: 'rest/message/getAllMessages',
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: authenticatedUser.email,
+        success: function (messages) {
+        	$.each(messages, function(key, message) {
+        		
+            	$("#messagesTable").append(
+            			"<tr><td>" + message.sender + "</td><td>" + 
+            			message.title + "</td><td>" +
+            			message.content +  "</td></tr>");
+            	
+        	});	
+        }
+    });
+	
+	 
+	
+}
 
 </script>
 

@@ -2,8 +2,12 @@ package com.j32bit.leave.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Properties;
 
+import com.j32bit.leave.bean.Leave;
 import com.j32bit.leave.bean.Message;
 
 public class MessageDAO extends ConnectionHelper{
@@ -26,6 +30,34 @@ public class MessageDAO extends ConnectionHelper{
 		
 		closePreparedStatement(preparedStmt);
 		closeConnection(conn);
+	}
+	
+	
+	public ArrayList<Message> getAllMessages(String email) throws Exception{
+		
+		Connection conn = getConnection();
+		ArrayList<Message> messages = new ArrayList<Message>();
+		PreparedStatement preparedStmt = conn.prepareStatement("SELECT * FROM messages WHERE receiver_email=?");
+		preparedStmt.setString(1, email);
+		
+		ResultSet rs = preparedStmt.executeQuery();
+
+		while(rs.next()) {
+			Message message = new Message();
+			
+			message.setSender(rs.getString("sender_email"));
+			message.setTitle(rs.getString("title"));
+			message.setContent(rs.getString("content"));
+			
+			messages.add(message);
+			
+		}
+	    closeResultSet(rs);	   
+		closePreparedStatement(preparedStmt);
+		closeConnection(conn);
+		
+		return messages;
+		
 	}
 
 }
