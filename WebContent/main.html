@@ -61,9 +61,9 @@
       <li id="nav_leave_requests" ><a href="#leave_requests" onclick="showLeaveRequest()"> <span class="glyphicon glyphicon-envelope"></span> Leave Requests</a></li>
       <li id="nav_project_members"><a href="#">Project Members</a></li>
       <li id="nav_show_personnel"><a href="#" onclick="showAllPersonnel()">Personnels</a></li>
-      <li id="nav_project_managers"><a href="#"><span class="glyphicon glyphicon-tower"></span> Project Managers</a></li>
+      <li id="nav_project_managers"><a href="#" onclick="getProjectManagers()"><span class="glyphicon glyphicon-tower"></span> Project Managers</a></li>
       <li id="nav_add_leave"><a href="#" onclick="showDatePicker()"><span class="glyphicon glyphicon-send"></span> Send Leave Request</a></li>
-      <li id="nav_add_leave_days"><a href="#" onclick="showAddLeave()" >Add Leave Day</a></li>
+      <li id="nav_add_leave_days"><a href="#" onclick="showAddLeave()" ><span class="glyphicon glyphicon-plus"></span> Add Leave Day</a></li>
       <li id="nav_add_new_user" onclick = "addNewUserPageShow()" ><a href="#"><span class="glyphicon glyphicon-plus"></span> Add New User</a></li>
       
     </ul>
@@ -240,6 +240,32 @@
 </div>
 
 
+
+
+
+<!-- Project manager table -->
+
+<div id="pmanagerTableDiv" class="container hide">
+  <h2>Project Managers</h2>     
+    <table id="pmanagerTable" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>E-mail</th>
+        <th>Department</th>
+        <th>Remove</th>
+        <th>Contact</th>
+      </tr>
+    </thead>
+    <tbody>
+    <!-- Dynamic olarak doldurulacak -->   
+    </tbody>
+  </table>
+</div>
+
+
+
+
 <!-- Leave Request table for projectManager and Admin -->
 
 <div id="leaveRequestTableDiv" class="container hide	                
@@ -313,6 +339,38 @@ Personnels:
 </select>
 <input type="button" onclick="addLeaveAdmin()" value="Add Leave Days">
 </form>
+
+
+
+
+
+
+
+<form id="messageForm" class="form-horizontal hide" role="form" method="post" action="index.php">
+	
+	<div class="form-group">
+		<label for="title" class="col-sm-2 control-label">Title</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" id="title" name="title" placeholder="About Personnel xxxxx Leave">
+		</div>
+	</div>
+	<br><br><br>
+	<div class="form-group">
+		<label for="message" class="col-sm-2 control-label">Message</label>
+		<div class="col-sm-10">
+			<textarea class="form-control" rows="4" name="message"></textarea>
+		</div>
+	</div>
+	
+	<div class="form-group">
+		<div class="col-sm-10 col-sm-offset-2">
+		<br>
+			<input id="submit" name="submit" type="submit" value="Send" class="btn btn-primary">
+		</div>
+	</div>
+</form>
+
+
 </body>
 
 
@@ -382,8 +440,8 @@ function showAllPersonnel(){
 	    mimeType: "application/json",
 	    success: function(users) {
 	      $.each(users, function(key, value) {
-	    	  if(authenticatedUser.email != value.email){ //Giriş yapan admin personellerde gözükmez.
-		    	    $("#personnelTable").append("<tr><td>" + value.name + "</td><td>" + 
+	    	  //Sadece personelleri göster
+	    	  if(authenticatedUser.email != value.email && value.projectManager != "none"){ 		    	    $("#personnelTable").append("<tr><td>" + value.name + "</td><td>" + 
 	   	    		value.email + "</td><td>" +  
 	   	    		value.department + "</td><td>" + 
 	   	    		value.projectManager + "</td><td>" + 
@@ -880,6 +938,55 @@ function addLeaveAdmin(){
 	        },
 	    });
 }
+
+
+function getProjectManagers(){
+	
+	$("#pmanagerTable > tbody").html("");
+
+	document.getElementById('pmanagerTableDiv').className="show";
+	
+	 $.ajax({
+	    type: "GET",
+	    url: 'rest/user/getAllUsers',
+	    contentType: "application/json",
+	    mimeType: "application/json",
+	    success: function(users) {
+	      $.each(users, function(key, value) {
+	    	  //Sadece proje yöneticilerini göster
+	    	  if(authenticatedUser.email != value.email && value.projectManager == "none"){ 
+		    	    $("#pmanagerTable").append("<tr><td>" + value.name + "</td><td>" + 
+	   	    		value.email + "</td><td>" +  
+	   	    		value.department + "</td><td>" + 
+	   	    		'<button id="' + "r"+value.email + '">Remove</button>' + "</td><td>" +
+	   	    		'<button id="' + "c"+value.email + '">Contact</button>' + 
+	   	    		"</td></tr>");
+	   	    		
+	   	    		//Hangi personel silinecekse onun emaili buttonun idsinden get edilir.
+		    	    document.getElementById("r"+value.email).addEventListener("click", function() {
+		    	    	deletePersonnel(value.email);
+		    	    }, false);
+	   	    		
+	   	    		
+		    	    document.getElementById("c"+value.email).addEventListener("click", function() {
+		    	    	document.getElementById('pmanagerTableDiv').className="hide";
+		    	    	document.getElementById('messageForm').className="show";
+
+
+		    	    }, false);
+	    	  }
+	      });
+	    },
+	    error: function() {
+	      console.log("getAllUsers error");
+	    }
+	  });
+}
+
+
+
+
+
 
 
 </script>
