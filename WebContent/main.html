@@ -699,19 +699,26 @@ function getDatePicker(){
 
 function getWorkDays() {
 	
-	var startDate = new Date(document.getElementById("txtFrom").value);
-	var endDate = new Date(document.getElementById("txtTo").value);
-    var count = 0;
-    var curDate = startDate;
-    
-    
-    while (curDate <= endDate) {
-        var dayOfWeek = curDate.getDay();
-        if(!((dayOfWeek == 6) || (dayOfWeek == 0)))
-           count++;
-        curDate.setDate(curDate.getDate() + 1);
-    }
-    return count;
+	if($("#txtFrom").val() && $("#txtTo").val()){
+		var startDate = new Date(document.getElementById("txtFrom").value);
+		var endDate = new Date(document.getElementById("txtTo").value);
+	    var count = 0;
+	    var curDate = startDate;
+	    
+	    
+	    while (curDate <= endDate) {
+	        var dayOfWeek = curDate.getDay();
+	        if(!((dayOfWeek == 6) || (dayOfWeek == 0)))
+	           count++;
+	        curDate.setDate(curDate.getDate() + 1);
+	    }
+	    return count;
+		
+	}else{
+		return -100;
+	}
+	
+	
 }
 
 
@@ -721,46 +728,52 @@ function addLeave() {
 	var isEmployee = $.inArray("employee",authenticatedUser.roles);
 	var workDays = getWorkDays();
 	
-	// Personelin izin hakkı ile aldığı izin karşılaştırılır.
-	if(workDays <= authenticatedUser.totalLeaveDays){
-		
-		//Personel izin alırsa izin isteği proje yöneticisne yollanır.
-		if(isEmployee != -1)
-			status = "on Project Manager";
-		else//Proje yöneticisi izin alırsa istek direkt olarak admine gider
-			status = "on Admin";
-		
-		
-	    var leave = {
-	   	
-	        owner: {
-	        	email: authenticatedUser.email
-	        },
-	        beginDate: document.getElementById("txtFrom").value,
-	        endDate: document.getElementById("txtTo").value,
-	        status: status,
-	        workDays: workDays
-	    }
+	if (workDays != -100) {
+		// Personelin izin hakkı ile aldığı izin karşılaştırılır.
+		if(workDays <= authenticatedUser.totalLeaveDays){
+			
+			//Personel izin alırsa izin isteği proje yöneticisne yollanır.
+			if(isEmployee != -1)
+				status = "on Project Manager";
+			else//Proje yöneticisi izin alırsa istek direkt olarak admine gider
+				status = "on Admin";
+			
+			
+		    var leave = {
+		   	
+		        owner: {
+		        	email: authenticatedUser.email
+		        },
+		        beginDate: document.getElementById("txtFrom").value,
+		        endDate: document.getElementById("txtTo").value,
+		        status: status,
+		        workDays: workDays
+		    }
 
-	    $.ajax({
-	        url: 'rest/leave/addLeave',
-	        type: 'POST',
-	        dataType: 'json',
-	        contentType: 'application/json',
-	        data: JSON.stringify(leave),
-	        success: function () {
-	        	if(isEmployee != -1)
-	        		alert("Number of Work Days: "+workDays+"\nPlease wait response from "+authenticatedUser.projectManager);
-	        	else
-	        		alert("Leave request sent successfully, wait response from Admin");
-				
-	        	
-	        	hideDatePicker();
-	        },
-	    });
-	}else{
-		alert("You do not have enough leave days.")
+		    $.ajax({
+		        url: 'rest/leave/addLeave',
+		        type: 'POST',
+		        dataType: 'json',
+		        contentType: 'application/json',
+		        data: JSON.stringify(leave),
+		        success: function () {
+		        	if(isEmployee != -1)
+		        		alert("Number of Work Days: "+workDays+"\nPlease wait response from "+authenticatedUser.projectManager);
+		        	else
+		        		alert("Leave request sent successfully, wait response from Admin");
+					
+		        	
+		        	hideDatePicker();
+		        },
+		    });
+		}else{
+			alert("You do not have enough leave days.")
+		}
+	} else {
+		alert("Tarih aralığı giriniz.")
 	}
+	
+	
 
 	
     
