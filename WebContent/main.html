@@ -11,7 +11,8 @@
 <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet"/>
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
 
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 
 <style>
@@ -757,20 +758,24 @@ function addLeave() {
 		        contentType: 'application/json',
 		        data: JSON.stringify(leave),
 		        success: function () {
-		        	if(isEmployee != -1)
-		        		alert("Number of Work Days: "+workDays+"\nPlease wait response from "+authenticatedUser.projectManager);
-		        	else
-		        		alert("Leave request sent successfully, wait response from Admin");
+		        	if(isEmployee != -1){
+		        		//alert("Number of Work Days: "+workDays+"\nPlease wait response from "+authenticatedUser.projectManager);
+		        		toastr.warning("Number of Work Days: "+workDays+"\nPlease wait response from "+authenticatedUser.projectManager);
+		        	}else{
+		        		//alert("Leave request sent successfully, wait response from Admin");
+		        		toastr.success("Leave request sent successfully, wait response from Admin");
+		        	}
 					
 		        	
 		        	hideDatePicker();
 		        },
 		    });
 		}else{
-			alert("You do not have enough leave days.")
+			//alert("You do not have enough leave days.");
+			toastr.error("You do not have enough leave days.");
 		}
 	} else {
-		alert("Tarih aralığı giriniz.")
+		toastr.warning("Tarih aralığı giriniz.")
 	}
 	
 	
@@ -789,7 +794,8 @@ function deletePersonnel(email){
 	    contentType: "application/json",
 	    data: email,
 	    success: function() {
-	    	alert(email + " was deleted succesfully");
+	    	//alert(email + " was deleted succesfully");
+	    	toastr.success(email + " was deleted succesfully");
 	    	showAllPersonnel(); // Personel listesi ekranda güncellenr
 	    },
 	    error: function(jqXHR, textStatus, errorThrown) {
@@ -817,13 +823,16 @@ function respondLeaveRequest(id,status){
         data: JSON.stringify(leaveResponse),
         success: function () {
         	
-        	if(status == "on Admin" )
-        		alert("Leave request sent to Admin");
-        	else if(status == "Accepted")
-        		alert("Leave request is Accepted");
-        	else
-        		alert("Leave request is Refused");
-        	
+        	if(status == "on Admin" ){
+        		//alert("Leave request sent to Admin");
+        		toastr.success("Leave request sent to Admin");
+        	}else if(status == "Accepted"){
+        		//alert("Leave request is Accepted");
+        		toastr.success("Leave request is Accepted");
+        	}else{
+        		//alert("Leave request is Refused");
+        		toastr.warning("Leave request is Refused");
+        	}
         	showLeaveRequest(); // Listeyi güncelle
 
         	
@@ -836,7 +845,6 @@ function getPersonnelLeaveHistory(email){
 	
 	showHide();
 	
-	alert(email);
 	$("#leaveHistoryTable > tbody").html("");
 	$("#personnelEmail").text(email);
 
@@ -881,9 +889,9 @@ function cancelLeave(leaveID){
 	    contentType: "application/json",
 	    data: leaveID.toString(),
 	    success: function() {
-	    	alert("Leave was cancelled succesfully");
+	    	//alert("Leave was cancelled succesfully");
+	    	toastr.success("Leave was cancelled succesfully");
 	    	showLeaveHistory();
-	    	
 	    },
 	    error: function(jqXHR, textStatus, errorThrown) {
 	
@@ -957,7 +965,8 @@ function addNewUser(){
 		roles[0]="admin";
 	}
 	else{
-    	alert(" Please select at least one role");
+    	//alert(" Please select at least one role");
+    	toastr.warning(" Please select at least one role");
     	flag = false;
 
 	}
@@ -982,7 +991,8 @@ function addNewUser(){
 		        contentType: 'application/json',
 		        data: JSON.stringify(user),
 		        success: function () {
-				    	alert(fullName+" succesfully added");
+				    	//alert(fullName+" succesfully added");
+				    	toastr.success(fullName+" succesfully added");
 				    	document.getElementById('leaveDaysForm').className="hide";
 
 		        },
@@ -1036,7 +1046,8 @@ function addLeaveAdmin(){
 	        contentType: 'application/json',
 	        data: JSON.stringify(user),
 	        success: function () {
-			    	alert(leaveDays+" leave days added to "+user.email);
+			    	//alert(leaveDays+" leave days added to "+user.email);
+			    	toastr.success(leaveDays+" leave days added to "+user.email);
 			    	document.getElementById('leaveDaysForm').className="hide";
 
 	        },
@@ -1114,7 +1125,8 @@ function sendMessage(receiverEmail){
         contentType: 'application/json',
         data: JSON.stringify(message),
         success: function () {
-		    	alert("Message Sent to "+receiverEmail);
+		    	//alert("Message Sent to "+receiverEmail);
+		    	toastr.success("Message Sent to "+receiverEmail);
         },
     });
 	
