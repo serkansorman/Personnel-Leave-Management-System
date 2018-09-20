@@ -99,6 +99,21 @@ public class UserREST {
 
 		
 	}
+	@Path("/getEmployeersOfProjectManager")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@RolesAllowed("projectManager")
+	public ArrayList<User> getEmployeersOfProjectManager(String emailOfProjectManager) throws Exception {
+		System.out.println("projectManagerEmail:" + emailOfProjectManager);
+
+
+		return ServiceFacade.getInstance().getUserDAO().getEmployeersOfProjectManager(emailOfProjectManager);
+
+
+		
+	}
+	
+	
 
 
 

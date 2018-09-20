@@ -60,7 +60,7 @@
       <li id="nav_history" onclick = "showLeaveHistory()" class="active"><a href="#">Leave History</a></li>
       <li id="nav_leave_requests" ><a href="#leave_requests" onclick="showLeaveRequest()"> <span class="glyphicon glyphicon-envelope"></span> Leave Requests</a></li>
       <li id="nav_leave_messages" ><a href="#l" onclick="getMessages()"> <span class="glyphicon glyphicon-envelope"></span> Inbox</a></li>
-      <li id="nav_project_members"><a href="#">Project Members</a></li>
+      <li id="nav_project_members"  onclick = "showProjectMembers()" ><a href="#">Project Members</a></li>
       <li id="nav_show_personnel"><a href="#" onclick="showAllPersonnel()">Personnels</a></li>
       <li id="nav_project_managers"><a href="#" onclick="getProjectManagers()"><span class="glyphicon glyphicon-tower"></span> Project Managers</a></li>
       <li id="nav_add_leave"><a href="#" onclick="showDatePicker()"><span class="glyphicon glyphicon-send"></span> Send Leave Request</a></li>
@@ -324,6 +324,26 @@
         <th>End Date</th>
         <th>Status</th>
         <th>Cancel</th>
+      </tr>
+    </thead>
+    <tbody>
+    <!-- Dynamic olarak doldurulacak -->   
+    </tbody>
+  </table>
+</div>
+
+
+<div id="employersTableDiv" class="container hide">
+  <h2>My Project Team</h2>     
+    <table id="employersTable" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>E-Mail</th>
+        <th>Department</th>
+        <th>Remaining Leaves</th>
+        <th>Remove</th>
+        
       </tr>
     </thead>
     <tbody>
@@ -1073,6 +1093,45 @@ function sendMessage(receiverEmail){
     });
 	
 		
+}
+
+function showProjectMembers(){
+	$("#employersTable > tbody").html("");
+
+	document.getElementById('employersTableDiv').className="show";
+	
+	
+	  $.ajax({
+		  url: "rest/user/getEmployeersOfProjectManager",
+		    type: "POST",
+		    mimeType: "application/json",
+		    contentType: "application/json",
+		    data: authenticatedUser.email,
+		    success: function(employeers){
+		    $.each(employeers, function(key, employee) {
+		    	
+		    	var cancelButton;
+		    	
+		    	
+		    		cancelButton = "</td><td>" + '<button id="' + employee.name + '"onclick="'+"cancelLeave("+employee.name+")"+'">Cancel</button></td>';
+		    	
+		    	
+		    	cancelButton += "</tr>";
+		    	
+		    	
+		    	$("#employersTable").append(
+		    			"<tr><td>"  + employee.name
+		    			+ "</td><td>" + employee.email 
+		    			+ "</td><td>" + employee.department
+		    			+ "</td><td>" + employee.totalLeaveDays
+		    			+ cancelButton);
+		    
+		      });    
+		    },
+		    error: function() {
+		      console.log("getAllUsers error");
+		    }
+		  }); 
 }
 
 

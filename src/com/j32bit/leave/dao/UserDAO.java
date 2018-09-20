@@ -165,5 +165,26 @@ public class UserDAO extends ConnectionHelper {
 		closeConnection(conn);
 
 	}
+	
+	public ArrayList<User> getEmployeersOfProjectManager(String emailOfProjectManager) throws Exception{
+		Connection conn = getConnection();
+		PreparedStatement preparedStmt = conn.prepareStatement("SELECT * FROM users WHERE projectManager=?");
 
+		preparedStmt.setString(1, emailOfProjectManager);
+		
+		ResultSet rst = preparedStmt.executeQuery();
+		
+	    ArrayList<User> userList = new ArrayList<>();
+		 
+		 
+	    while (rst.next()) {
+	       User user = new User(rst.getString("email"), rst.getString("user_pass"), 
+	    		   rst.getString("full_name"),rst.getString("department"),
+	    		   rst.getInt("totalLeaveDays"),rst.getString("projectManager"));
+	        userList.add(user);
+	    }
+	    
+	    return userList;
+
+	}
 }
