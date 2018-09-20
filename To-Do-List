@@ -1,5 +1,4 @@
 Admin sistemde update işlemi yapabilmeli.
-Navigation bar üzerinde farklı butonlara erişildiğinde yapılan show hide işlemleri düzenlenecek.
 Admin izin alan kullanıcının izin günlerini calander üzerinde görecek.
 Proje yöneticisi kendi altında çalışan grup üyelerinin izin durumuna erişebilmeli.
 Personel birden fazla projede çalışıyorsa izin isteği admine geçtiğinde admin proje yöneticileriyle iletişim kurabilmeli.
