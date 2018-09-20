@@ -139,12 +139,12 @@
     <br>
   Employee: <input type="checkbox" id="employeeCheckBox">
   <br><br>
-   <button id="add" type="button" onclick="addNewUser()">Add</button>
+   <button id="add" type="button" onclick="addNewUser()" class="btn btn-primary">Add</button>
 </form>     
                           
 
 
-<table id="datepicker" class="hide" border="0" cellpadding="0" cellspacing="0">
+	<table id="datepicker" class="hide" border="0" cellpadding="0" cellspacing="0">
         <tr>
             <td>
                 From:
@@ -160,11 +160,11 @@
             </td>
             <td>
                 <input type="text" id="txtTo" />
-            </td>
+            </td> 
+            <td><button id="sendLeaveRequest" class="hide" type="button" onclick="addLeave()" class="btn btn-primary">Send!</button> </td>
         </tr>
     </table>
     
-     <button id="sendLeaveRequest" class="hide" type="button" onclick="addLeave()">Send!</button> 
 
 	
 <div class="container">
@@ -377,7 +377,7 @@ Total Leave Days: <input id="inputLeaveDays" type="number" min="1" max="30"><br>
 Personnels:
 <select id="selectPersonEmail">
 </select>
-<input type="button" onclick="addLeaveAdmin()" value="Add Leave Days">
+<input type="button" onclick="addLeaveAdmin()" value="Add Leave Days" class="btn btn-primary">
 </form>
 
 
@@ -509,7 +509,7 @@ function showAllPersonnel(){
 	   	    		value.department + "</td><td>" + 
 	   	    		value.projectManager + "</td><td>" + 
 	   	    		value.totalLeaveDays +"</td><td>" + 
-	   	    		'<button id="' + value.email + '">Remove</button>' + "</td></tr>");
+	   	    		'<button id="' + value.email + '" class="btn btn-danger">Remove</button>' + "</td></tr>");
 	   	    		
 	   	    		//Hangi personel silinecekse onun emaili buttonun idsinden get edilir.
 		    	    document.getElementById(value.email).addEventListener("click", function() {
@@ -561,9 +561,9 @@ function showLeaveRequest(){
 	    			leave.beginDate + "</td><td>" + 
 	    			leave.endDate + "</td><td>" +
 	    			leave.owner.totalLeaveDays + "</td><td>" + 
-		    	'<button id="' + historyButtonID + '">Leave History</button>' + "</td><td>" + 
-   	    		'<button id="' + "a"+leave.id + '">Accept</button>' + "</td><td>" + 
-   	    		'<button id="' + "d"+leave.id + '">Decline</button>' +"</td></tr>");
+		    	'<button id="' + historyButtonID + '" class="btn btn-primary">Leave History</button>' + "</td><td>" + 
+   	    		'<button id="' + "a"+leave.id + '" class="btn btn-success">Accept</button>' + "</td><td>" + 
+   	    		'<button id="' + "d"+leave.id + '" class="btn btn-danger">Decline</button>' +"</td></tr>");
 	    	
 	    	 document.getElementById("a"+leave.id).addEventListener("click", function() {
 	    		 	/* Kullanıcının rolü proje yöneticisiyse ve izni onaylarsa 
@@ -601,12 +601,12 @@ function showDatePicker() {
 	showHide();
 	
 	document.getElementById('datepicker').className="show";
-	document.getElementById('sendLeaveRequest').className="show";
+	document.getElementById('sendLeaveRequest').className="btn btn-primary show";
 }
 function hideDatePicker(){
 	
 	document.getElementById('datepicker').className="hide";
-	document.getElementById('sendLeaveRequest').className="hide";
+	document.getElementById('sendLeaveRequest').className="btn btn-primary hide";
 }
 
 
@@ -652,7 +652,7 @@ function showLeaveHistory(){
 		    	var cancelButton;
 		    	
 		    	if(leave.status == "on Project Manager" || leave.status == "on Admin" )
-		    		cancelButton = "</td><td>" + '<button id="' + leave.id + '"onclick="'+"cancelLeave("+leave.id+")"+'">Cancel</button></td>';
+		    		cancelButton = "</td><td>" + '<button id="' + leave.id + '"onclick="'+"cancelLeave("+leave.id+")"+'" class="btn btn-danger">Cancel</button></td>';
 		    	else
 		    		cancelButton = "</td><td> </td>"
 		    	cancelButton += "</tr>";
@@ -1051,8 +1051,8 @@ function getProjectManagers(){
 		    	    $("#pmanagerTable").append("<tr><td>" + value.name + "</td><td>" + 
 	   	    		value.email + "</td><td>" +  
 	   	    		value.department + "</td><td>" + 
-	   	    		'<button id="' + "r"+value.email + '">Remove</button>' + "</td><td>" +
-	   	    		'<button id="' + "c"+value.email + '">Contact</button>' + 
+	   	    		'<button id="' + "r"+value.email + '" class="btn btn-danger">Remove</button>' + "</td><td>" +
+	   	    		'<button id="' + "c"+value.email + '" class="btn btn-secondary">Contact</button>' + 
 	   	    		"</td></tr>");
 	   	    		
 	   	    		//Hangi personel silinecekse onun emaili buttonun idsinden get edilir.
@@ -1129,7 +1129,7 @@ function showProjectMembers(){
 		    	var cancelButton;
 		    	
 		    	
-		    		cancelButton = "</td><td>" + '<button id="' + employee.name + '"onclick="'+"cancelLeave("+employee.name+")"+'">Cancel</button></td>';
+		    		cancelButton = "</td><td>" + '<button id="' + employee.name + '"onclick="'+"cancelLeave("+employee.name+")"+'" class="btn btn-danger">Cancel</button></td>';
 		    	
 		    	
 		    	cancelButton += "</tr>";
@@ -1186,7 +1186,7 @@ function showHide(){
 	document.getElementById('leaveRequestTableDiv').className="hide";
 
 	document.getElementById('datepicker').className="hide";
-	document.getElementById('sendLeaveRequest').className="hide";
+	document.getElementById('sendLeaveRequest').className="btn btn-primary hide";
 
 	document.getElementById('profile').className="hide";
 
