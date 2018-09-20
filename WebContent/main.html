@@ -76,10 +76,8 @@
   </div>
 </nav> 
 	
- <br><br>
  <div id="leaveHistory" class="well col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xs-offset-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2 hide">
 
-                           		<br><br><br>
                          
                                 <table class="table table-user-information">
                                     <tbody>
@@ -98,9 +96,6 @@
 </div> 
 
 
-
- <br><br>
- 
 <!-- Admin tarafından user ekleme -->
                          
 <form id="addNewUserForm" class="hide">
@@ -172,7 +167,6 @@
      <button id="sendLeaveRequest" class="hide" type="button" onclick="addLeave()">Send!</button> 
 
 	
-<br><br>
 <div class="container">
  <div id="profile" class="well col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xs-offset-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2 hide">
       
@@ -496,6 +490,8 @@ function logout() {
 
 function showAllPersonnel(){
 	
+	showHide();
+	
 	$("#personnelTable > tbody").html("");
 
 	document.getElementById('personnelTableDiv').className="show";
@@ -529,6 +525,8 @@ function showAllPersonnel(){
 }
 
 function showLeaveRequest(){
+	
+	showHide();
 	
 	var leavesUrl;
 	var sendType;
@@ -600,6 +598,8 @@ function showLeaveRequest(){
 	
 	
 function showDatePicker() {
+	showHide();
+	
 	document.getElementById('datepicker').className="show";
 	document.getElementById('sendLeaveRequest').className="show";
 }
@@ -611,6 +611,9 @@ function hideDatePicker(){
 
 
 function showProfile(){
+	
+	showHide();
+	
 	document.getElementById('profile').className="show";
 	
 	 $("#user_name_title").append(authenticatedUser.name);
@@ -629,6 +632,8 @@ function showProfile(){
 }
 
 function showLeaveHistory(){
+	
+	showHide();
 	
 	$("#ownLeaveTable > tbody").html("");
 
@@ -816,6 +821,8 @@ function respondLeaveRequest(id,status){
 
 function getPersonnelLeaveHistory(email){
 	
+	showHide();
+	
 	alert(email);
 	$("#leaveHistoryTable > tbody").html("");
 	$("#personnelEmail").text(email);
@@ -888,6 +895,8 @@ function decreaseUserLeaveDays(leave){
 }
 
 function addNewUserPageShow(){
+	showHide();
+	
 	document.getElementById("addNewUserForm").className="show";
 }
 
@@ -972,6 +981,8 @@ function addNewUser(){
 
 
 function showAddLeave(){
+	showHide();
+	
 	document.getElementById('leaveDaysForm').className="show";
 	
 	$.ajax({
@@ -1021,6 +1032,8 @@ function addLeaveAdmin(){
 
 
 function getProjectManagers(){
+	
+	showHide();
 	
 	$("#pmanagerTable > tbody").html("");
 
@@ -1096,6 +1109,9 @@ function sendMessage(receiverEmail){
 }
 
 function showProjectMembers(){
+	
+	showHide();
+	
 	$("#employersTable > tbody").html("");
 
 	document.getElementById('employersTableDiv').className="show";
@@ -1137,6 +1153,7 @@ function showProjectMembers(){
 
 function getMessages(){
 	
+	showHide();	
 	
 	$("#messagesTable > tbody").html("");
 
@@ -1160,8 +1177,35 @@ function getMessages(){
         	});	
         }
     });
+		
+}
+
+function showHide(){
+	document.getElementById('personnelTableDiv').className="hide";
+
+	document.getElementById('leaveRequestTableDiv').className="hide";
+
+	document.getElementById('datepicker').className="hide";
+	document.getElementById('sendLeaveRequest').className="hide";
+
+	document.getElementById('profile').className="hide";
+
+	document.getElementById('ownLeaveTableDiv').className="hide";
+
+	document.getElementById('leaveHistoryTableDiv').className="hide";
+
+	document.getElementById("addNewUserForm").className="hide";
+
+	document.getElementById('leaveDaysForm').className="hide";
+
+	document.getElementById('pmanagerTableDiv').className="hide";
+
+	document.getElementById('messageForm').className="hide";
+
+	document.getElementById('employersTableDiv').className="hide";
+
+	document.getElementById('messagesTableDiv').className="hide";
 	
-	 
 	
 }
 
