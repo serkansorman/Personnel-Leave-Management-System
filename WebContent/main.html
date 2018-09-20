@@ -77,72 +77,73 @@
   </div>
 </nav> 
 	
- <div id="leaveHistory" class="well col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xs-offset-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2 hide">
-
-                         
-                                <table class="table table-user-information">
-                                    <tbody>
-                                     <tr>
-                                        <td >user_begin_date: </td>                               
-                                    </tr>
-                                     <tr>
-                                        <td >user_end_date: </td>                               
-                                    </tr>
-                                     <tr>
-                                        <td >user_status: </td>                               
-                                    </tr>
-                                    </tbody>
-                                </table>             
-                          
+ <div id="leaveHistory" class="well col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xs-offset-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2 hide" style="width: 50%;">
+       <table class="table table-user-information">
+           <tbody>
+            <tr>
+               <td >user_begin_date: </td>                               
+           </tr>
+            <tr>
+               <td >user_end_date: </td>                               
+           </tr>
+            <tr>
+               <td >user_status: </td>                               
+           </tr>
+           </tbody>
+       </table>             
 </div> 
 
 
 <!-- Admin tarafından user ekleme -->
                          
-<form id="addNewUserForm" class="hide">
+<form id="addNewUserForm" class="hide" style="    width: 30%; padding-left: 30px;">
 
-
-  E-Mail:<br>
-  <input type="text" name="email"  id="email"> 
-  <br>
+   <div class="form-group">
+    <label for="exampleInputEmail1">E-Mail</label>
+    <input type="text" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email">
+  </div>
+  
+   <div class="form-group">
+    <label for="exampleInputEmail1">Full Name</label>
+    <input type="text" class="form-control" id="fullName" name="fullName" aria-describedby="emailHelp" placeholder="Enter Full Name">
+  </div>
   
   
-  Full Name:<br>
-  <input type="text" name="fullName"  id="fullName">
-  <br>
+   <div class="form-group">
+    <label for="exampleInputEmail1">Password</label>
+    <input type="password" class="form-control" id="password" name="password" aria-describedby="emailHelp" placeholder="Enter Password">
+  </div>
   
   
-  Password:<br>
-  <input type="text" name="password" id="password" value="1">
-  <br>
+  <div class="form-group">
+    <label for="exampleInputEmail1">Project Manager</label>
+    <input type="text" class="form-control" id="projectManager" name="projectManager" aria-describedby="emailHelp" placeholder="Enter Project Manager">
+  </div>
   
+  <div class="form-group">
+    <label for="exampleInputEmail1">Department</label>
+    <input type="text" class="form-control" id="department" name="department" aria-describedby="emailHelp" placeholder="Enter Department">
+  </div>
   
-  Project Manager:<br>
-  <input type="text" name="projectManager" id="projectManager">
-  <br>
+  <div class="form-group">
+    <label for="exampleInputEmail1">Total Leave Days</label>
+    <input type="text" class="form-control" id="totalLeaveDays" name="totalLeaveDays" aria-describedby="emailHelp" placeholder="Enter Total Leave Days">
+  </div>
   
+  <div class="form-group">
+      Admin: <input type="checkbox" id="adminCheckBox">
+	    <br>
+	  Project Manager: <input type="checkbox" id="projectManagerCheckBox" >
+	    <br>
+	  Employee: <input type="checkbox" id="employeeCheckBox">
+  </div>
   
-  Department:<br>
-  <input type="text" name="department" id="department">
-  <br>
+  <div class="form-group">
+    <button id="add" type="button" onclick="addNewUser()" class="btn btn-primary">Add User</button>
+  </div>
   
-  
-  
-  Total Leave Days:<br>
-  <input type="text" name="totalLeaveDays" id="totalLeaveDays" value="50">
-  <br>
-
-
-
-  Admin: <input type="checkbox" id="adminCheckBox">
-    <br>
-  Project Manager: <input type="checkbox" id="projectManagerCheckBox" >
-    <br>
-  Employee: <input type="checkbox" id="employeeCheckBox">
-  <br><br>
-   <button id="add" type="button" onclick="addNewUser()" class="btn btn-primary">Add</button>
+   
 </form>     
-                          
 
 
 	<table id="datepicker" class="hide" border="0" cellpadding="0" cellspacing="0">
@@ -238,7 +239,7 @@
 
 
 <!-- Personnel table -->
-<div id="personnelTableDiv" class="container hide">
+<div id="personnelTableDiv" class="container hide" style="width: 70%;">
   <h2>Personnels</h2>     
     <table id="personnelTable" class="table table-striped">
     <thead>
@@ -246,9 +247,9 @@
         <th>Name</th>
         <th>E-mail</th>
         <th>Department</th>
-        <th>Project Manager's</th>
-        <th>Remaining Leaves</th>
-        <th>Remove</th>
+        <th style="width: 12%;">Project Manager's</th>
+        <th style="width: 12%;">Remaining Leaves</th>
+        <th style="width: 8%;">Remove</th>
       </tr>
     </thead>
     <tbody>
@@ -263,7 +264,7 @@
 
 <!-- Project manager table -->
 
-<div id="pmanagerTableDiv" class="container hide">
+<div id="pmanagerTableDiv" class="container hide" style="width: 70%;">
   <h2>Project Managers</h2>     
     <table id="pmanagerTable" class="table table-striped">
     <thead>
@@ -286,17 +287,16 @@
 
 <!-- Leave Request table for projectManager and Admin -->
 
-<div id="leaveRequestTableDiv" class="container hide	                
-">
+<div id="leaveRequestTableDiv" class="container hide" style="width: 70%;">
   <h2>Leave Requests</h2>     
     <table id="leaveRequestTable" class="table table-striped">
     <thead>
       <tr>
         <th>Name</th>
         <th>Email</th>
-        <th>Begin Date</th>
-        <th>End Date</th>
-        <th>Leave Days</th>
+        <th style="width: 10%;">Begin Date</th>
+        <th style="width: 10%;">End Date</th>
+        <th style="width: 8%;">Leave Days</th>
         <th>Leave History</th>
         <th>Accept</th>
         <th>Decline</th>
@@ -310,7 +310,7 @@
 </div>
 
 <!-- İzin geçmişi -->
-<div id="ownLeaveTableDiv" class="container hide">
+<div id="ownLeaveTableDiv" class="container hide" style="width: 50%;">
   <h2>Leave Records</h2>     
     <table id="ownLeaveTable" class="table table-striped">
     <thead>
@@ -328,7 +328,7 @@
 </div>
 
 
-<div id="employersTableDiv" class="container hide">
+<div id="employersTableDiv" class="container hide" style="width: 60%;">
   <h2>My Project Team</h2>     
     <table id="employersTable" class="table table-striped">
     <thead>
@@ -336,9 +336,8 @@
         <th>Name</th>
         <th>E-Mail</th>
         <th>Department</th>
-        <th>Remaining Leaves</th>
-        <th>Remove</th>
-        
+        <th style="width: 13%;">Remaining Leaves</th>
+        <th style="width: 7%;">Remove</th>
       </tr>
     </thead>
     <tbody>
@@ -349,7 +348,7 @@
 
 
 <!-- Admin ve proje yöneticisi tarafından görüntülenen izin geçmişi -->
-<div id="leaveHistoryTableDiv" class="container hide">
+<div id="leaveHistoryTableDiv" class="container hide" style="width: 40%;">
   <h2>Leave History</h2>
   <h3 id="personnelEmail"></h3>     
        
@@ -413,7 +412,7 @@ Personnels:
 
 
 <!-- Mesaj sayfası -->
-<div id="messagesTableDiv" class="container hide">
+<div id="messagesTableDiv" class="container hide" style="width: 50%;">
   <h2>Messages</h2>     
     <table id="messagesTable" class="table table-striped">
     <thead>
@@ -561,10 +560,10 @@ function showLeaveRequest(){
 	    			"</td><td>" + leave.owner.email + "</td><td>" + 
 	    			leave.beginDate + "</td><td>" + 
 	    			leave.endDate + "</td><td>" +
-	    			leave.owner.totalLeaveDays + "</td><td>" + 
-		    	'<button id="' + historyButtonID + '" class="btn btn-primary">Leave History</button>' + "</td><td>" + 
-   	    		'<button id="' + "a"+leave.id + '" class="btn btn-success">Accept</button>' + "</td><td>" + 
-   	    		'<button id="' + "d"+leave.id + '" class="btn btn-danger">Decline</button>' +"</td></tr>");
+	    			leave.owner.totalLeaveDays + "</td><td style=' width: 10%;'>" + 
+		    	'<button id="' + historyButtonID + '" class="btn btn-primary">Leave History</button>' + "</td><td  style=' width: 6%;'>" + 
+   	    		'<button id="' + "a"+leave.id + '" class="btn btn-success" >Accept</button>' + "</td><td style=' width: 7%;'>" + 
+   	    		'<button id="' + "d"+leave.id + '" class="btn btn-danger" >Decline</button>' +"</td></tr>");
 	    	
 	    	 document.getElementById("a"+leave.id).addEventListener("click", function() {
 	    		 	/* Kullanıcının rolü proje yöneticisiyse ve izni onaylarsa 
