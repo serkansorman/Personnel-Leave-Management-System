@@ -884,6 +884,8 @@ function addNewUser(){
 	var employeeCheckBox = document.getElementById("employeeCheckBox").checked;
 	var adminCheckBox = document.getElementById("adminCheckBox").checked;
 	
+	var flag = true;
+	
 	var roles = [];
 	
 	if(projectManagerCheckBox==true && employeeCheckBox==true && adminCheckBox==true){
@@ -912,33 +914,40 @@ function addNewUser(){
 	else if(adminCheckBox==true){
 		roles[0]="admin";
 	}
-	
-	
+	else{
+    	alert(" Please select at least one role");
+    	flag = false;
 
-	
-	
-	var user = {
-			email: email,
-			department: department,
-			projectManager: projectManager,
-			name: fullName,
-			roles:roles,
-			totalLeaveDays:totalLeaveDays,
-			password:password
 	}
 	
-	 $.ajax({
-	        url: 'rest/user/addNewUser',
-	        type: 'POST',
-	        dataType: 'json',
-	        contentType: 'application/json',
-	        data: JSON.stringify(user),
-	        success: function () {
-			    	alert(leaveDays+" leave days added to "+user.email);
-			    	document.getElementById('leaveDaysForm').className="hide";
+	
 
-	        },
-	    });
+	if(flag==true){
+		var user = {
+				email: email,
+				department: department,
+				projectManager: projectManager,
+				name: fullName,
+				roles:roles,
+				totalLeaveDays:totalLeaveDays,
+				password:password
+		}
+		
+		 $.ajax({
+		        url: 'rest/user/addNewUser',
+		        type: 'POST',
+		        dataType: 'json',
+		        contentType: 'application/json',
+		        data: JSON.stringify(user),
+		        success: function () {
+				    	alert(fullName+" succesfully added");
+				    	document.getElementById('leaveDaysForm').className="hide";
+
+		        },
+		    });
+	}
+	
+
 }
 
 
