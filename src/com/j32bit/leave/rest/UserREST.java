@@ -86,6 +86,9 @@ public class UserREST {
 		System.out.println("Email:" + user.getEmail());
 		System.out.println("ProjectManager:" + user.getProjectManager());
 		System.out.println("Department:" + user.getDepartment());
+		System.out.println("Password:" + user.getPassword());
+		System.out.println("Total Leave Days:" + user.getTotalLeaveDays());
+
 		
 		for(int i=0;i<user.getRoles().size();i++) {
 			System.out.println("Roles["+i+"]=" + user.getRoles().get(i) );

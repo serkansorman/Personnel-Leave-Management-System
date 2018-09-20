@@ -104,18 +104,40 @@
 <!-- Admin tarafından user ekleme -->
                          
 <form id="addNewUserForm" class="hide">
+
+
   E-Mail:<br>
-  <input type="text" name="email"  id="email" required> 
+  <input type="text" name="email"  id="email"> 
   <br>
+  
+  
   Full Name:<br>
-  <input type="text" name="fullName"  id="fullName" required>
+  <input type="text" name="fullName"  id="fullName">
   <br>
+  
+  
+  Password:<br>
+  <input type="text" name="password" id="password" value="1">
+  <br>
+  
+  
   Project Manager:<br>
-  <input type="text" name="projectManager" id="projectManager" required>
+  <input type="text" name="projectManager" id="projectManager">
   <br>
+  
+  
   Department:<br>
-  <input type="text" name="department" id="department" required>
+  <input type="text" name="department" id="department">
   <br>
+  
+  
+  
+  Total Leave Days:<br>
+  <input type="text" name="totalLeaveDays" id="totalLeaveDays" value="50">
+  <br>
+
+
+
   Admin: <input type="checkbox" id="adminCheckBox">
     <br>
   Project Manager: <input type="checkbox" id="projectManagerCheckBox" >
@@ -854,7 +876,9 @@ function addNewUser(){
 	var email = $('#email').val();
 	var fullName =  $('#fullName').val();
 	var projectManager = $('#projectManager').val();
-	var department =  $('#department').val();
+	var totalLeaveDays =  $('#totalLeaveDays').val();
+	var department = $('#department').val();
+	var password = $('#password').val();
 	
 	var projectManagerCheckBox = document.getElementById("projectManagerCheckBox").checked;
 	var employeeCheckBox = document.getElementById("employeeCheckBox").checked;
@@ -898,7 +922,9 @@ function addNewUser(){
 			department: department,
 			projectManager: projectManager,
 			name: fullName,
-			roles:roles
+			roles:roles,
+			totalLeaveDays:totalLeaveDays,
+			password:password
 	}
 	
 	 $.ajax({

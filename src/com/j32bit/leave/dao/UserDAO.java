@@ -141,11 +141,11 @@ public class UserDAO extends ConnectionHelper {
 		        + " values (?, ?, ?, ?, ?, ?)");
 		
 		preparedStmt.setString(1, user.getEmail());
-		preparedStmt.setString(2, "1");
+		preparedStmt.setString(2, user.getPassword());
 		preparedStmt.setString(3, user.getName());
 		preparedStmt.setString(4, user.getDepartment());
 		preparedStmt.setString(5, user.getProjectManager());
-		preparedStmt.setInt(6, 0);
+		preparedStmt.setInt(6, user.getTotalLeaveDays());
 		
 		
 		PreparedStatement preparedStmt2 = conn.prepareStatement(" insert into user_roles (email,role_name)"
