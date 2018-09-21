@@ -187,4 +187,17 @@ public class UserDAO extends ConnectionHelper {
 	    return userList;
 
 	}
+	
+	public void removeEmployeeFromProject(String employeeEmail) throws Exception {
+		
+		Connection conn = getConnection();
+		PreparedStatement preparedStmt = conn.prepareStatement("UPDATE users SET projectManager=? WHERE email=?");
+		
+		preparedStmt.setString(1,"none");
+		preparedStmt.setString(2, employeeEmail);
+		preparedStmt.execute();
+		
+		closePreparedStatement(preparedStmt);
+		closeConnection(conn);
+	}
 }

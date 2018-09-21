@@ -1126,7 +1126,6 @@ function sendMessage(receiverEmail){
         contentType: 'application/json',
         data: JSON.stringify(message),
         success: function () {
-		    	//alert("Message Sent to "+receiverEmail);
 		    	toastr.success("Message Sent to "+receiverEmail);
         },
     });
@@ -1135,6 +1134,9 @@ function sendMessage(receiverEmail){
 }
 
 function showProjectMembers(){
+	
+	showHide();
+	
 	$("#employersTable > tbody").html("");
 
 	document.getElementById('employersTableDiv').className="show";
@@ -1152,18 +1154,19 @@ function showProjectMembers(){
 	           var cancelButton;
 		    	
 		    	
-		    	cancelButton = "</td><td>" + '"<button id="' + employee.email + '"onclick="'+"removeEmployeeFromProject("+ employee.email.toString()+")"+'">Cancel</button></td>';
-		    	
-		    	cancelButton += "</tr>";
+	           cancelButton = "</td><td>" + '"<button id="' + employee.email + '"onclick="'+'">Cancel</button></td>';
+		       cancelButton += "</tr>";
 		    	
 
-		    	
-		    	$("#employersTable").append(
+		       $("#employersTable").append(
 		    			"<tr><td>"  + employee.name
 		    			+ "</td><td>" + employee.email 
 		    			+ "</td><td>" + employee.department
 		    			+ "</td><td>" + employee.totalLeaveDays
-		    			 + cancelButton);
+		    			+"</td><td>" + '<button id="' + employee.email + '" class="btn btn-danger">Remove</button>' + "</td></tr>");
+			    document.getElementById(employee.email).addEventListener("click", function() {
+		    		 removeEmployeeFromProject(employee.email);
+		    	}, true);
 		    
 		      });    
 		    },
@@ -1197,7 +1200,7 @@ function getMessages(){
             			message.title + "</td><td>" +
             			message.content + "</td><td>" +  
             			'<button id="' + message.id + '" class="btn btn-danger">Remove</button>' + "</td><td>" + 
-            			'<button id="' + message.sender + '" class="btn btn-primary">Reply</button>' + "</td><td  style=' width: 6%;'>" +
+            			'<button id="' + message.id+message.sender + '" class="btn btn-primary">Reply</button>' + "</td><td  style=' width: 6%;'>" +
             			
             			"</td></tr>");
             	
@@ -1205,6 +1208,10 @@ function getMessages(){
 	    	    document.getElementById(message.id).addEventListener("click", function() {
 	    	    	removeMessage(message.id);
 	    	    }, false);
+	    	    
+	    	   
+	    	    
+	    	   
             	
         	});	
         }
@@ -1241,6 +1248,7 @@ function removeEmployeeFromProject(leaveID){
 	    data: leaveID.toString(),
 	    success: function() {
 	    	alert("Employee was removed succesfully");
+ 	    	showProjectMembers();	    	
 	    	
 	    },
 	    error: function(jqXHR, textStatus, errorThrown) {

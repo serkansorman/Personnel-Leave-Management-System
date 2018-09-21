@@ -118,7 +118,7 @@ public class UserREST {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@RolesAllowed("projectManager")
 	public void removeEmployeeFromProject(String employeeEmail) throws Exception {
-		System.out.println("employeer name:" + employeeEmail);
+		ServiceFacade.getInstance().getUserDAO().removeEmployeeFromProject(employeeEmail);
 		
 	}
 	
