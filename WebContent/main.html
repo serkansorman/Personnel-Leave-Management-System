@@ -77,22 +77,6 @@
   </div>
 </nav> 
 	
- <div id="leaveHistory" class="well col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xs-offset-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2 hide" style="width: 50%;">
-       <table class="table table-user-information">
-           <tbody>
-            <tr>
-               <td >user_begin_date: </td>                               
-           </tr>
-            <tr>
-               <td >user_end_date: </td>                               
-           </tr>
-            <tr>
-               <td >user_status: </td>                               
-           </tr>
-           </tbody>
-       </table>             
-</div> 
-
 
 <!-- Admin tarafından user ekleme -->
                          
@@ -225,7 +209,7 @@
                         <span class="pull-right">
                             <button class="btn btn-sm btn-warning" type="button"
                                     data-toggle="tooltip"
-                                    data-original-title="Edit this user"><i class="glyphicon glyphicon-edit"></i></button>
+                                    data-original-title="Edit this user"  onclick="showUpdateUserPage()" ><i class="glyphicon glyphicon-edit"></i></button>
                             <button class="btn btn-sm btn-danger" type="button"
                                     data-toggle="tooltip"
                                     data-original-title="Remove this user"><i class="glyphicon glyphicon-remove"></i></button>
@@ -259,6 +243,25 @@
 </div>
 
 
+<!-- User update sayfasi -->
+<form id="updateUserForm" class="hide" style="    width: 30%; padding-left: 30px;">
+
+   <div class="form-group">
+    <label for="exampleInputEmail1">Old Password</label>
+    <input type="password" class="form-control" id="oldpassword" name="password" aria-describedby="emailHelp" placeholder="Enter Password">
+  </div>
+  
+     <div class="form-group">
+    <label for="exampleInputEmail1">New Password</label>
+    <input type="password" class="form-control" id="newpassword" name="password" aria-describedby="emailHelp" placeholder="Enter Password">
+  </div>
+  
+  <div class="form-group">
+    <button id="update" type="button" onclick="updateUser()" class="btn btn-primary">Add User</button>
+  </div>
+
+   
+</form>     
 
 
 
@@ -327,7 +330,7 @@
   </table>
 </div>
 
-
+<!-- ProjectManager in Employeers listesi -->
 <div id="employersTableDiv" class="container hide" style="width: 60%;">
   <h2>My Project Team</h2>     
     <table id="employersTable" class="table table-striped">
@@ -1261,6 +1264,47 @@ function removeEmployeeFromProject(leaveID){
 	
 	    }
 	  });
+}
+
+function showUpdateUserPage(leaveID){
+	showHide();
+	document.getElementById("updateUserForm").className="show";
+	
+}
+
+
+function updateUser(){
+		
+	var oldpassword = $('#oldpassword').val();
+	var newpassword =  $('#newpassword').val();
+
+	
+	var user = {
+			email: authenticatedUser.email,
+			password: newpassword
+	}
+	if(oldpassword==authenticatedUser.password && newpassword!=oldpassword){
+		
+		 $.ajax({
+		        url: 'rest/user/updateUser',
+		        type: 'POST',
+		        dataType: 'json',
+		        contentType: 'application/json',
+		        data: JSON.stringify(user),
+		        success: function () {
+				    	toastr.success("Your password is successfully changed");
+
+		        },
+		    });
+	}
+	else if(newpassword==oldpassword){
+		toastr.error("Nothing changed");
+
+	}
+	else{
+		toastr.error("Wrong old password");
+	}
+
 }
 
 function showHide(){

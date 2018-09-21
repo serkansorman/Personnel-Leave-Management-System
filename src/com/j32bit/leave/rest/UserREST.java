@@ -99,14 +99,23 @@ public class UserREST {
 
 		
 	}
+	
+	
+	@Path("/updateUser")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@PermitAll
+	public void updateUser(User user) throws Exception {
+		ServiceFacade.getInstance().getUserDAO().updateUser(user);
+	}
+
+	
 	@Path("/getEmployeersOfProjectManager")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@RolesAllowed("projectManager")
 	public ArrayList<User> getEmployeersOfProjectManager(String emailOfProjectManager) throws Exception {
 		System.out.println("projectManagerEmail:" + emailOfProjectManager);
-
-
 		return ServiceFacade.getInstance().getUserDAO().getEmployeersOfProjectManager(emailOfProjectManager);
 
 

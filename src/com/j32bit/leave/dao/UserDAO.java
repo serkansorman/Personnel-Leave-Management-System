@@ -200,4 +200,21 @@ public class UserDAO extends ConnectionHelper {
 		closePreparedStatement(preparedStmt);
 		closeConnection(conn);
 	}
+
+	public void updateUser(User user) throws Exception {
+		
+		System.out.println("user.getPassword() : "+ user.getPassword());
+		System.out.println("user.getEmail() : "+  user.getEmail());
+
+		Connection conn = getConnection();
+		PreparedStatement preparedStmt = conn.prepareStatement("UPDATE users SET user_pass=? WHERE email=?");
+		
+		preparedStmt.setString(1,user.getPassword());
+		preparedStmt.setString(2, user.getEmail());
+
+		preparedStmt.execute();
+		
+		closePreparedStatement(preparedStmt);
+		closeConnection(conn);		
+	}
 }
