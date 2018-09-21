@@ -1,5 +1,7 @@
 package com.j32bit.leave.rest;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 
 import javax.annotation.security.RolesAllowed;
@@ -34,6 +36,17 @@ public class MessageREST {
 	public ArrayList<Message> getAllMessages(String email) throws Exception{
 		System.out.println("Entered getAllMessages rest");
 		return ServiceFacade.getInstance().getMessageDAO().getAllMessages(email);		
+	}
+	
+	
+	@Path("/deleteMessage")
+	@POST
+	@RolesAllowed({"projectManager","admin"})
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void deleteMessage(String messageID) throws Exception {
+		System.out.println("Entered deleteMessage rest");
+		ServiceFacade.getInstance().getMessageDAO().deleteMessage(messageID);
+		
 	}
 
 

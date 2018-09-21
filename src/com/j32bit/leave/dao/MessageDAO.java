@@ -60,5 +60,19 @@ public class MessageDAO extends ConnectionHelper{
 		return messages;
 		
 	}
+	
+	public void deleteMessage(String messageID) throws Exception {
+		
+		Connection conn = getConnection();
+		PreparedStatement pst= conn.prepareStatement("Delete from messages where id=?");
+		pst.setLong(1,Long.parseLong(messageID));
+		pst.executeUpdate();
+		closePreparedStatement(pst);
+		
+		closePreparedStatement(pst);
+		closeConnection(conn);
+		
+		
+	}
 
 }

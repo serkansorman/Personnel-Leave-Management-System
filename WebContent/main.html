@@ -1196,15 +1196,39 @@ function getMessages(){
             			"<tr><td>" + message.sender + "</td><td>" + 
             			message.title + "</td><td>" +
             			message.content + "</td><td>" +  
-            			'<button id="' + "r"+message.id + '" class="btn btn-danger">Remove</button>' + "</td><td>" + 
+            			'<button id="' + message.id + '" class="btn btn-danger">Remove</button>' + "</td><td>" + 
             			'<button id="' + message.sender + '" class="btn btn-primary">Reply</button>' + "</td><td  style=' width: 6%;'>" +
             			
             			"</td></tr>");
+            	
+
+	    	    document.getElementById(message.id).addEventListener("click", function() {
+	    	    	removeMessage(message.id);
+	    	    }, false);
             	
         	});	
         }
     });
 		
+}
+
+function removeMessage(messageID){
+	
+	$.ajax({
+	    url: "rest/message/deleteMessage",
+	    type: "POST",
+	    mimeType: "application/json",
+	    contentType: "application/json",
+	    data: messageID.toString(),
+	    success: function() {
+	    	toastr.success("Message was deleted succesfully");
+	    	getMessages();
+	    },
+	    error: function(jqXHR, textStatus, errorThrown) {
+	
+	    }
+	  });
+	
 }
 function removeEmployeeFromProject(leaveID){
 	
