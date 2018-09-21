@@ -1235,7 +1235,6 @@ function removeMessage(messageID){
 	    contentType: "application/json",
 	    data: messageID.toString(),
 	    success: function() {
-	    	toastr.success("Message was deleted succesfully");
 	    	getMessages();
 	    },
 	    error: function(jqXHR, textStatus, errorThrown) {
@@ -1254,8 +1253,8 @@ function removeEmployeeFromProject(leaveID){
 	    contentType: "application/json",
 	    data: leaveID.toString(),
 	    success: function() {
-	    	alert("Employee was removed succesfully");
  	    	showProjectMembers();	    	
+	    	toastr.success("Message was deleted succesfully");
 	    	
 	    },
 	    error: function(jqXHR, textStatus, errorThrown) {
