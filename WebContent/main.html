@@ -1209,7 +1209,14 @@ function getMessages(){
 	    	    	removeMessage(message.id);
 	    	    }, false);
 	    	    
-	    	   
+	    	    document.getElementById(message.id+message.sender).addEventListener("click", function() {
+	    	    	document.getElementById('messagesTableDiv').className="hide";
+	    	    	document.getElementById('messageForm').className="show";
+	    	    	
+	    	    	 document.getElementById("submit").addEventListener("click", function() {
+	 	    	    	sendMessage(message.sender);
+	 	    	    }, false);
+	    	    }, false);
 	    	    
 	    	   
             	
