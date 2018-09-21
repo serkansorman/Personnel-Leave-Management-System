@@ -113,6 +113,15 @@ public class UserREST {
 		
 	}
 	
+	@Path("/removeEmployeeFromProject")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@RolesAllowed("projectManager")
+	public void removeEmployeeFromProject(String employeeEmail) throws Exception {
+		System.out.println("employeer name:" + employeeEmail);
+		
+	}
+	
 	
 
 

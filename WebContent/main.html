@@ -1133,9 +1133,6 @@ function sendMessage(receiverEmail){
 }
 
 function showProjectMembers(){
-	
-	showHide();
-	
 	$("#employersTable > tbody").html("");
 
 	document.getElementById('employersTableDiv').className="show";
@@ -1150,21 +1147,21 @@ function showProjectMembers(){
 		    success: function(employeers){
 		    $.each(employeers, function(key, employee) {
 		    	
-		    	var cancelButton;
+	           var cancelButton;
 		    	
 		    	
-		    		cancelButton = "</td><td>" + '<button id="' + employee.name + '"onclick="'+"cancelLeave("+employee.name+")"+'" class="btn btn-danger">Cancel</button></td>';
-		    	
+		    	cancelButton = "</td><td>" + '"<button id="' + employee.email + '"onclick="'+"removeEmployeeFromProject("+ employee.email.toString()+")"+'">Cancel</button></td>';
 		    	
 		    	cancelButton += "</tr>";
 		    	
+
 		    	
 		    	$("#employersTable").append(
 		    			"<tr><td>"  + employee.name
 		    			+ "</td><td>" + employee.email 
 		    			+ "</td><td>" + employee.department
 		    			+ "</td><td>" + employee.totalLeaveDays
-		    			+ cancelButton);
+		    			 + cancelButton);
 		    
 		      });    
 		    },
@@ -1202,6 +1199,24 @@ function getMessages(){
         }
     });
 		
+}
+function removeEmployeeFromProject(leaveID){
+	
+	
+	$.ajax({
+	    url: "rest/user/removeEmployeeFromProject",
+	    type: "POST",
+	    mimeType: "application/json",
+	    contentType: "application/json",
+	    data: leaveID.toString(),
+	    success: function() {
+	    	alert("Employee was removed succesfully");
+	    	
+	    },
+	    error: function(jqXHR, textStatus, errorThrown) {
+	
+	    }
+	  });
 }
 
 function showHide(){
