@@ -6,7 +6,9 @@ public class Message {
 	private String receiver;
 	private String title;
 	private String content;
+	private long id;
 	
+
 	public Message() {
 		
 	}
@@ -50,6 +52,16 @@ public class Message {
 	public void setContent(String content) {
 		this.content = content;
 	}
+	
+	
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
 	
 	
 	

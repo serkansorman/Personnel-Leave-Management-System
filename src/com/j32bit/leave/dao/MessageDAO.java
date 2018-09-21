@@ -48,6 +48,7 @@ public class MessageDAO extends ConnectionHelper{
 			message.setSender(rs.getString("sender_email"));
 			message.setTitle(rs.getString("title"));
 			message.setContent(rs.getString("content"));
+			message.setId(rs.getLong("id"));
 			
 			messages.add(message);
 			

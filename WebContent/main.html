@@ -420,6 +420,8 @@ Personnels:
         <th>Sender</th>
         <th>Title</th>
         <th>Content</th>
+        <th>Remove</th>
+        <th>Reply</th>
       </tr>
     </thead>
     <tbody>
@@ -1193,7 +1195,11 @@ function getMessages(){
             	$("#messagesTable").append(
             			"<tr><td>" + message.sender + "</td><td>" + 
             			message.title + "</td><td>" +
-            			message.content +  "</td></tr>");
+            			message.content + "</td><td>" +  
+            			'<button id="' + "r"+message.id + '" class="btn btn-danger">Remove</button>' + "</td><td>" + 
+            			'<button id="' + message.sender + '" class="btn btn-primary">Reply</button>' + "</td><td  style=' width: 6%;'>" +
+            			
+            			"</td></tr>");
             	
         	});	
         }
