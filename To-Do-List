@@ -1,5 +1,1 @@
-Admin sistemde update işlemi yapabilmeli.
 Admin izin alan kullanıcının izin günlerini calander üzerinde görecek.
-Proje yöneticisi kendi altında çalışan grup üyelerinin izin durumuna erişebilmeli.
-Personel birden fazla projede çalışıyorsa izin isteği admine geçtiğinde admin proje yöneticileriyle iletişim kurabilmeli.
-Büyük çapta bootstrap düzenlemesi yapılacak.
