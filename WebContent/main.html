@@ -1075,7 +1075,7 @@ function getProjectManagers(){
 	    success: function(users) {
 	      $.each(users, function(key, value) {
 	    	  //Sadece proje yöneticilerini göster
-	    	  if(authenticatedUser.email != value.email && value.projectManager == "none"){ 
+	    	  if($.inArray("projectManager",value.roles ) != -1){ 
 		    	    $("#pmanagerTable").append("<tr><td>" + value.name + "</td><td>" + 
 	   	    		value.email + "</td><td>" +  
 	   	    		value.department + "</td><td>" + 
@@ -1100,7 +1100,7 @@ function getProjectManagers(){
 		    	    document.getElementById("submit").addEventListener("click", function() {
 		    	    	sendMessage(value.email);
 		    	    }, false);
-	    	  }
+	    	 }
 	      });
 	    },
 	    error: function() {
@@ -1239,6 +1239,8 @@ function removeMessage(messageID){
 	    data: messageID.toString(),
 	    success: function() {
 	    	getMessages();
+	    	toastr.success("Message was deleted succesfully");
+
 	    },
 	    error: function(jqXHR, textStatus, errorThrown) {
 	
@@ -1246,7 +1248,7 @@ function removeMessage(messageID){
 	  });
 	
 }
-function removeEmployeeFromProject(leaveID){
+function removeEmployeeFromProject(deletedEmployeeEmail){
 	
 	
 	$.ajax({
@@ -1254,10 +1256,10 @@ function removeEmployeeFromProject(leaveID){
 	    type: "POST",
 	    mimeType: "application/json",
 	    contentType: "application/json",
-	    data: leaveID.toString(),
+	    data: deletedEmployeeEmail.toString(),
 	    success: function() {
  	    	showProjectMembers();	    	
-	    	toastr.success("Message was deleted succesfully");
+	    	toastr.success(deletedEmployeeEmail+" was removed from project succesfully");
 	    	
 	    },
 	    error: function(jqXHR, textStatus, errorThrown) {

@@ -37,7 +37,7 @@ public class UserDAO extends ConnectionHelper {
 		ResultSet rs2 = preparedStmt2.executeQuery();
 		
 		
-		if(rs.next() && rs2.next()) {
+		if(rs2.next()) {
 			user.setEmail(rs2.getString("email"));
 			user.setPassword(rs2.getString("user_pass"));
 			user.setName(rs2.getString("full_name"));
@@ -45,9 +45,14 @@ public class UserDAO extends ConnectionHelper {
 			user.setProjectManager(rs2.getString("projectManager"));
 			user.setTotalLeaveDays(rs2.getInt("totalLeaveDays"));
 			
+			
 			ArrayList<String> roles = new ArrayList<String>();
-			roles.add(rs.getString("role_name"));
-			user.setRoles(roles);
+			while(rs.next()) 
+				roles.add(rs.getString("role_name"));
+		
+			
+			if(roles != null)
+				user.setRoles(roles);
 		}
 		
 
@@ -70,9 +75,7 @@ public class UserDAO extends ConnectionHelper {
 	    ResultSet rst = pre.executeQuery();
 	    ArrayList<User> userList = new ArrayList<>();
 	    while (rst.next()) {
-	       User user = new User(rst.getString("email"), rst.getString("user_pass"), 
-	    		   rst.getString("full_name"),rst.getString("department"),
-	    		   rst.getInt("totalLeaveDays"),rst.getString("projectManager"));
+	       User user = getUser(rst.getString("email"));
 	       userList.add(user);
 	    }
 	    
