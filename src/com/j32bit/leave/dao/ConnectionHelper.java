@@ -51,14 +51,21 @@ public class ConnectionHelper {
 		
 		InitialContext ic = new InitialContext();
 		BasicDataSource ds = (BasicDataSource) ic.lookup(connectionData.getJNDIname());
-		return ds.getConnection();
+		Connection conn = ds.getConnection();
+		
+		logger.debug("Connection established from data source");
+
+		return conn;
 	}
 	
 	
 	public Connection getConnectionLocal() throws Exception {
 		
 		Class.forName(connectionData.getDriver());
-		return DriverManager.getConnection(connectionData.getDbUrl(), connectionData.getDbUserName(), connectionData.getDbPassword());
+		Connection conn = DriverManager.getConnection(connectionData.getDbUrl(), connectionData.getDbUserName(), connectionData.getDbPassword());
+		logger.debug("Connection established from driver manager");
+
+		return conn;
 	}
 	
 	
@@ -72,6 +79,9 @@ public class ConnectionHelper {
 				conn.rollback();
 			}
 		}
+		
+		logger.debug("Transaction connection established");
+
 		return conn;
 		
 	}

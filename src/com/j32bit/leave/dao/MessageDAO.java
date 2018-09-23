@@ -3,11 +3,8 @@ package com.j32bit.leave.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
-
-import com.j32bit.leave.bean.Leave;
 import com.j32bit.leave.bean.Message;
 
 public class MessageDAO extends ConnectionHelper{
