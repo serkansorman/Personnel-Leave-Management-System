@@ -58,14 +58,14 @@
      <a class="navbar-brand" href="."> <img class="brand" src="./images/32bit.jpg"></a>
   	</div>
     <ul id="navbarLinks" class="nav navbar-nav">
-      <li id="nav_history" onclick = "showLeaveHistory()" class="active"><a href="#">Leave History</a></li>
-      <li id="nav_leave_requests" ><a href="#leave_requests" onclick="showLeaveRequest()"> <span class="glyphicon glyphicon-envelope"></span> Leave Requests</a></li>
+      <li id="nav_history" onclick = "showLeaveHistory()" class="active"><a href="#"><span class="glyphicon glyphicon-calendar"></span> Leave History</a></li>
+      <li id="nav_leave_requests" ><a href="#leave_requests" onclick="showLeaveRequest()"> <span class="glyphicon glyphicon-bell"></span> Leave Requests</a></li>
       <li id="nav_leave_messages" ><a href="#l" onclick="getMessages()"> <span class="glyphicon glyphicon-envelope"></span> Inbox</a></li>
-      <li id="nav_project_members"  onclick = "showProjectMembers()" ><a href="#">Project Members</a></li>
-      <li id="nav_show_personnel"><a href="#" onclick="showAllPersonnel()">Personnels</a></li>
+      <li id="nav_project_members"  onclick = "showProjectMembers()" ><a href="#"><span class="glyphicon glyphicon-list"></span> Project Members</a></li>
+      <li id="nav_show_personnel"><a href="#" onclick="showAllPersonnel()"><span class="glyphicon glyphicon-th-list"></span> Personnels</a></li>
       <li id="nav_project_managers"><a href="#" onclick="getProjectManagers()"><span class="glyphicon glyphicon-tower"></span> Project Managers</a></li>
       <li id="nav_add_leave"><a href="#" onclick="showDatePicker()"><span class="glyphicon glyphicon-send"></span> Send Leave Request</a></li>
-      <li id="nav_add_leave_days"><a href="#" onclick="showAddLeave()" ><span class="glyphicon glyphicon-plus"></span> Add Leave Day</a></li>
+      <li id="nav_add_leave_days"><a href="#" onclick="showAddLeave()" ><span class="glyphicon glyphicon-pencil"></span> Add Leave Day</a></li>
       <li id="nav_add_new_user" onclick = "addNewUserPageShow()" ><a href="#"><span class="glyphicon glyphicon-plus"></span> Add New User</a></li>
       
     </ul>
@@ -201,19 +201,6 @@
                                     </tbody>
                                 </table>
                         </div>
-                    </div>
-                    <div class="panel-footer">
-                        <button class="btn btn-sm btn-primary" type="button"
-                                data-toggle="tooltip"
-                                data-original-title="Send message to user"><i class="glyphicon glyphicon-envelope"></i></button>
-                        <span class="pull-right">
-                            <button class="btn btn-sm btn-warning" type="button"
-                                    data-toggle="tooltip"
-                                    data-original-title="Edit this user"  onclick="showUpdateUserPage()" ><i class="glyphicon glyphicon-edit"></i></button>
-                            <button class="btn btn-sm btn-danger" type="button"
-                                    data-toggle="tooltip"
-                                    data-original-title="Remove this user"><i class="glyphicon glyphicon-remove"></i></button>
-                        </span>
                     </div>
                 </div>
             </div>
