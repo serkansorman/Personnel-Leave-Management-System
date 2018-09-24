@@ -102,7 +102,9 @@ public class UserDAO extends ConnectionHelper {
 		pstRole.executeUpdate();
 		closePreparedStatement(pstRole);
 		
-	
+		
+		closePreparedStatement(pstUser);
+		closePreparedStatement(pstRole);
 		closeConnection(conn);
 
 	}
@@ -171,9 +173,7 @@ public class UserDAO extends ConnectionHelper {
 	public ArrayList<User> getEmployeersOfProjectManager(String emailOfProjectManager) throws Exception{
 		Connection conn = getConnection();
 		PreparedStatement preparedStmt = conn.prepareStatement("SELECT * FROM users WHERE projectManager=?");
-
 		preparedStmt.setString(1, emailOfProjectManager);
-		
 		ResultSet rst = preparedStmt.executeQuery();
 		
 	    ArrayList<User> userList = new ArrayList<>();
@@ -185,6 +185,9 @@ public class UserDAO extends ConnectionHelper {
 	    		   rst.getInt("totalLeaveDays"),rst.getString("projectManager"));
 	        userList.add(user);
 	    }
+	    
+	    closePreparedStatement(preparedStmt);
+		closeConnection(conn);	
 	    
 	    return userList;
 
@@ -205,9 +208,6 @@ public class UserDAO extends ConnectionHelper {
 
 	public void updateUser(User user) throws Exception {
 		
-		System.out.println("user.getPassword() : "+ user.getPassword());
-		System.out.println("user.getEmail() : "+  user.getEmail());
-
 		Connection conn = getConnection();
 		PreparedStatement preparedStmt = conn.prepareStatement("UPDATE users SET user_pass=? WHERE email=?");
 		

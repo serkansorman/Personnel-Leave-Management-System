@@ -8,7 +8,6 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 
 import com.j32bit.leave.bean.User;
-import com.j32bit.leave.listener.ContextListener;
 import com.j32bit.leave.service.ServiceFacade;
 
 
