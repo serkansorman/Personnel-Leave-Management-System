@@ -67,6 +67,51 @@ public class UserDAO extends ConnectionHelper {
 	}
 	
 	
+	public User getUserForAllUsers(String email,Connection conn) throws Exception {
+		
+		User user = new User();
+		PreparedStatement preparedStmt = conn.prepareStatement("SELECT * FROM user_roles WHERE email=?");
+		PreparedStatement preparedStmt2 = conn.prepareStatement("SELECT * FROM users WHERE email=?");
+
+		preparedStmt.setString(1, email);
+		preparedStmt2.setString(1, email);
+		
+		ResultSet rs = preparedStmt.executeQuery();
+		ResultSet rs2 = preparedStmt2.executeQuery();
+		
+		
+		if(rs2.next()) {
+			user.setEmail(rs2.getString("email"));
+			user.setPassword(rs2.getString("user_pass"));
+			user.setName(rs2.getString("full_name"));
+			user.setDepartment(rs2.getString("department"));
+			user.setProjectManager(rs2.getString("projectManager"));
+			user.setTotalLeaveDays(rs2.getInt("totalLeaveDays"));
+			
+			
+			ArrayList<String> roles = new ArrayList<String>();
+			while(rs.next()) 
+				roles.add(rs.getString("role_name"));
+		
+			
+			if(roles != null)
+				user.setRoles(roles);
+		}
+		
+
+	    closeResultSet(rs);
+	    closeResultSet(rs2);
+	    
+		closePreparedStatement(preparedStmt);
+		closePreparedStatement(preparedStmt2);
+
+		
+		return user;
+		
+	}
+	
+	
+	
 	public ArrayList<User> getAllUsers() throws Exception{
 		
 		Connection conn = getConnection();
@@ -74,7 +119,7 @@ public class UserDAO extends ConnectionHelper {
 	    ResultSet rst = pre.executeQuery();
 	    ArrayList<User> userList = new ArrayList<>();
 	    while (rst.next()) {
-	       User user = getUser(rst.getString("email"));
+	       User user = getUserForAllUsers(rst.getString("email"),conn);
 	       userList.add(user);
 	    }
 	    
