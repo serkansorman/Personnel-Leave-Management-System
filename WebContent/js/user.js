@@ -179,14 +179,15 @@ function getProjectManagers(){
 		    	    document.getElementById("c"+value.email).addEventListener("click", function() {
 		    	    	document.getElementById('pmanagerTableDiv').className="hide";
 		    	    	document.getElementById('messageForm').className="show";
-
+		    	    	
+		    	    	 document.getElementById("submit").addEventListener("click", function() {
+				    	    	sendMessage(value.email);
+				    	 }, false);
 
 		    	    }, false);
 		    	    
 		    	    
-		    	    document.getElementById("submit").addEventListener("click", function() {
-		    	    	sendMessage(value.email);
-		    	    }, false);
+		    	   
 	    	 }
 	      });
 	    },

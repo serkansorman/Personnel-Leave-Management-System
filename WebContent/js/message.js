@@ -5,24 +5,31 @@
 function sendMessage(receiverEmail){
 	
 	
-	var message = {
-			sender: authenticatedUser.email,
-			receiver: receiverEmail,
-			title: document.getElementById("title").value,
-			content: document.getElementById("content").value
+	if (document.getElementById("title").value == "" || document.getElementById("content").value == ""){
+		toastr.error("Please fill out these fields");
+	}
+	else{
+		
+		var message = {
+				sender: authenticatedUser.email,
+				receiver: receiverEmail,
+				title: document.getElementById("title").value,
+				content: document.getElementById("content").value
+		}
+		
+		
+		$.ajax({
+	        url: 'rest/message/sendMessage',
+	        type: 'POST',
+	        dataType: 'json',
+	        contentType: 'application/json',
+	        data: JSON.stringify(message),
+	        success: function () {
+			    	toastr.success("Message Sent to "+receiverEmail);
+	        },
+	    });
 	}
 	
-	
-	$.ajax({
-        url: 'rest/message/sendMessage',
-        type: 'POST',
-        dataType: 'json',
-        contentType: 'application/json',
-        data: JSON.stringify(message),
-        success: function () {
-		    	toastr.success("Message Sent to "+receiverEmail);
-        },
-    });
 	
 		
 }
